@@ -11,7 +11,9 @@ import bases.view.auditoria.menu_auditoria;
 import bases.view.creacion_respaldos.menu_creacion_respaldos;
 import bases.view.performance.menu_performance;
 import bases.view.recuperacion_respaldos.menu_recuperacionRespaldos;
-import bases.view.respaldos_y_directorios.menu_respaldosDirectorios;
+import bases.view.respaldos_y_directorios.menu_directorios;
+import bases.view.respaldos_y_directorios.menu_respaldos;
+import bases.view.seguridad_usuarios.menu_seguridadRoles;
 import bases.view.seguridad_usuarios.menu_seguridadUsuarios;
 import bases.view.tunning.menu_tunning;
 
@@ -26,6 +28,8 @@ public class menuprincipal extends javax.swing.JFrame {
      */
     public menuprincipal() {
         initComponents();
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -47,6 +51,8 @@ public class menuprincipal extends javax.swing.JFrame {
         boton_auditoria = new javax.swing.JButton();
         boton_tunning = new javax.swing.JButton();
         boton_seguridad = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        boton_seguridadRoles = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,7 +72,7 @@ public class menuprincipal extends javax.swing.JFrame {
             }
         });
 
-        boton_admRespaldosDirectorios.setText("Respaldos y directorios");
+        boton_admRespaldosDirectorios.setText("Respaldos ");
         boton_admRespaldosDirectorios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boton_admRespaldosDirectoriosActionPerformed(evt);
@@ -115,39 +121,55 @@ public class menuprincipal extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Direcitorios");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        boton_seguridadRoles.setText("Seguridad de roles");
+        boton_seguridadRoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton_seguridadRolesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(79, 79, 79)
-                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jButton1)
+                        .addComponent(boton_seguridad)
+                        .addComponent(boton_auditoria)
+                        .addComponent(boton_performance)
+                        .addComponent(boton_admTablespaces)
+                        .addComponent(boton_tunning)
+                        .addComponent(boton_admSchemas)
+                        .addComponent(boton_admRespaldosDirectorios)
+                        .addComponent(boton_recuperaRespaldo)
+                        .addComponent(boton_creacionRespaldo)
+                        .addComponent(boton_seguridadRoles))
+                    .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(82, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(boton_seguridad)
-                    .addComponent(boton_auditoria)
-                    .addComponent(boton_performance)
-                    .addComponent(boton_admTablespaces)
-                    .addComponent(boton_tunning)
-                    .addComponent(boton_admSchemas)
-                    .addComponent(boton_admRespaldosDirectorios)
-                    .addComponent(boton_recuperaRespaldo)
-                    .addComponent(boton_creacionRespaldo))
-                .addGap(75, 75, 75))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titulo)
-                .addGap(65, 65, 65)
+                .addGap(18, 18, 18)
                 .addComponent(boton_creacionRespaldo)
+                .addGap(18, 18, 18)
+                .addComponent(boton_admRespaldosDirectorios)
                 .addGap(18, 18, 18)
                 .addComponent(boton_recuperaRespaldo)
                 .addGap(18, 18, 18)
-                .addComponent(boton_admRespaldosDirectorios)
+                .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(boton_admSchemas)
                 .addGap(18, 18, 18)
@@ -160,7 +182,9 @@ public class menuprincipal extends javax.swing.JFrame {
                 .addComponent(boton_auditoria)
                 .addGap(18, 18, 18)
                 .addComponent(boton_seguridad)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(boton_seguridadRoles)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         pack();
@@ -182,7 +206,7 @@ public class menuprincipal extends javax.swing.JFrame {
 
     private void boton_admRespaldosDirectoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_admRespaldosDirectoriosActionPerformed
         // TODO add your handling code here:
-        menu_respaldosDirectorios menu = new menu_respaldosDirectorios();
+        menu_respaldos menu = new menu_respaldos();
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_boton_admRespaldosDirectoriosActionPerformed
@@ -230,6 +254,20 @@ public class menuprincipal extends javax.swing.JFrame {
         menu.setVisible(true);
     }//GEN-LAST:event_boton_seguridadActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        menu_directorios menu = new menu_directorios();
+        this.setVisible(false);
+        menu.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void boton_seguridadRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_seguridadRolesActionPerformed
+        // TODO add your handling code here:
+        menu_seguridadRoles menu = new menu_seguridadRoles();
+        this.setVisible(false);
+        menu.setVisible(true);
+    }//GEN-LAST:event_boton_seguridadRolesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -274,7 +312,9 @@ public class menuprincipal extends javax.swing.JFrame {
     private javax.swing.JButton boton_performance;
     private javax.swing.JButton boton_recuperaRespaldo;
     private javax.swing.JButton boton_seguridad;
+    private javax.swing.JButton boton_seguridadRoles;
     private javax.swing.JButton boton_tunning;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables
 }

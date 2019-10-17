@@ -23,25 +23,25 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-              <Component id="titulo" min="-2" pref="247" max="-2" attributes="0"/>
-              <EmptySpace pref="82" max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="boton_seguridad" min="-2" max="-2" attributes="0"/>
-                  <Component id="boton_auditoria" min="-2" max="-2" attributes="0"/>
-                  <Component id="boton_performance" min="-2" max="-2" attributes="0"/>
-                  <Component id="boton_admTablespaces" min="-2" max="-2" attributes="0"/>
-                  <Component id="boton_tunning" min="-2" max="-2" attributes="0"/>
-                  <Component id="boton_admSchemas" min="-2" max="-2" attributes="0"/>
-                  <Component id="boton_admRespaldosDirectorios" min="-2" max="-2" attributes="0"/>
-                  <Component id="boton_recuperaRespaldo" min="-2" max="-2" attributes="0"/>
-                  <Component id="boton_creacionRespaldo" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_seguridad" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_auditoria" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_performance" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_admTablespaces" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_tunning" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_admSchemas" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_admRespaldosDirectorios" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_recuperaRespaldo" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_creacionRespaldo" min="-2" max="-2" attributes="0"/>
+                      <Component id="boton_seguridadRoles" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="titulo" min="-2" pref="247" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+              <EmptySpace pref="82" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -50,12 +50,14 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="titulo" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="boton_creacionRespaldo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="boton_admRespaldosDirectorios" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="boton_recuperaRespaldo" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="boton_admRespaldosDirectorios" min="-2" max="-2" attributes="0"/>
+              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="boton_admSchemas" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -68,7 +70,9 @@
               <Component id="boton_auditoria" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="boton_seguridad" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="56" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="boton_seguridadRoles" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="21" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -97,7 +101,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="boton_admRespaldosDirectorios">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Respaldos y directorios"/>
+        <Property name="text" type="java.lang.String" value="Respaldos "/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_admRespaldosDirectoriosActionPerformed"/>
@@ -149,6 +153,22 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_seguridadActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="jButton1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Direcitorios"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="boton_seguridadRoles">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Seguridad de roles"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="boton_seguridadRolesActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
