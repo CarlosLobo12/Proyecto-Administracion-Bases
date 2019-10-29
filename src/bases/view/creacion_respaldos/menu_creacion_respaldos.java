@@ -5,19 +5,89 @@
  */
 package bases.view.creacion_respaldos;
 
+import bases.model.Modelo;
+import bases.view.admin_tablespaces.menu_admin_tablespaces;
 import bases.view.menuprincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author CALIL
  */
+
+
 public class menu_creacion_respaldos extends javax.swing.JFrame {
 
     /**
      * Creates new form menu_creacion_respaldos
      */
+   
+    
+public void comboDirectorios () throws SQLException{
+    
+    Modelo modelo = new Modelo();
+    
+    String sql ="select DIRECTORY_NAME from all_directories";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      direcS.addItem(resultados.getString("DIRECTORY_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    String sql2 ="select DIRECTORY_NAME from all_directories";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql2);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      direcT.addItem(resultados.getString("DIRECTORY_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+
+ 
     public menu_creacion_respaldos() {
         initComponents();
+         try {
+        // TODO add your handling code here:
+        comboDirectorios();
+    } catch (SQLException ex) {
+        Logger.getLogger(menu_creacion_respaldos.class.getName()).log(Level.SEVERE, null, ex);
+    }
         this.setResizable(false);
         this.setLocationRelativeTo( null);
     }
@@ -35,16 +105,13 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btn_regresar1 = new javax.swing.JButton();
         schema_respaldo = new javax.swing.JComboBox<>();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         btn_respaldo = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         nom_dumpfile = new javax.swing.JTextField();
-        nom_logfile = new javax.swing.JTextField();
         nom_dumpfile1 = new javax.swing.JTextField();
-        nom_logfile1 = new javax.swing.JTextField();
-        tabla_selec = new javax.swing.JComboBox<>();
+        direcS = new javax.swing.JComboBox<>();
         schema_Selec = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -54,6 +121,9 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        tabla_selec1 = new javax.swing.JComboBox<>();
+        direcT = new javax.swing.JComboBox<>();
+        jLabel12 = new javax.swing.JLabel();
 
         btn_regresar.setText("Regresar");
         btn_regresar.addActionListener(new java.awt.event.ActionListener() {
@@ -75,8 +145,6 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
 
         schema_respaldo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jLabel4.setText("Nombre Logfile");
-
         jLabel5.setText("Nombre Dumpfile");
 
         btn_respaldo.setText("Crear respaldo");
@@ -96,25 +164,27 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
             }
         });
 
-        tabla_selec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         schema_Selec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setText("Crear resplado");
 
-        jLabel6.setText("Seleccione el schema ");
+        jLabel6.setText("Seleccione el Usuario ");
 
-        jLabel7.setText("Seleccione la tabla ");
+        jLabel7.setText("Dijite  la contraseña ");
 
-        jLabel8.setText("Nombre dumpfile");
+        jLabel8.setText("Seleccione tabla");
 
-        jLabel9.setText("Nombre logfile");
+        jLabel9.setText("Seleccione directorio");
 
         jLabel10.setText("Creacion de respaldos por tablas ");
 
         jLabel11.setText("Creacion de respaldo Full");
 
         jButton2.setText("Recuperar Full");
+
+        tabla_selec1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel12.setText("Seleccione directorio");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -135,14 +205,16 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
                                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(direcS, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                 .addComponent(nom_dumpfile, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGroup(layout.createSequentialGroup()
                                                     .addComponent(jLabel3)
                                                     .addGap(33, 33, 33)
-                                                    .addComponent(schema_respaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(nom_logfile, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(schema_respaldo, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(91, 91, 91)
@@ -158,9 +230,9 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
                                                 .addGap(18, 18, 18)
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(schema_Selec, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(tabla_selec, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                     .addComponent(nom_dumpfile1)
-                                                    .addComponent(nom_logfile1)))
+                                                    .addComponent(tabla_selec1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(direcT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(118, 118, 118)
                                                 .addComponent(jButton1)
@@ -202,18 +274,18 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
                                 .addComponent(jLabel6))
                             .addComponent(schema_Selec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel7)
-                            .addComponent(tabla_selec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nom_dumpfile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(nom_dumpfile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
+                            .addComponent(tabla_selec1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(nom_logfile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(48, 48, 48)
+                            .addComponent(direcT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(84, 84, 84)
                         .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
@@ -229,15 +301,15 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
                     .addComponent(nom_dumpfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nom_logfile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                    .addComponent(direcS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addGap(75, 75, 75)
                 .addComponent(btn_respaldo)
                 .addGap(60, 60, 60)
                 .addComponent(jLabel11)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         pack();
@@ -248,7 +320,7 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_regresarActionPerformed
 
     private void btn_regresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_regresar1ActionPerformed
-        // TODO add your handling code here:
+   
         menuprincipal menu = new menuprincipal();
         this.setVisible(false);
         menu.setVisible(true);
@@ -302,14 +374,16 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
     private javax.swing.JButton btn_regresar;
     private javax.swing.JButton btn_regresar1;
     private javax.swing.JButton btn_respaldo;
+    private javax.swing.JComboBox<String> direcS;
+    private javax.swing.JComboBox<String> direcT;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -317,10 +391,8 @@ public class menu_creacion_respaldos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField nom_dumpfile;
     private javax.swing.JTextField nom_dumpfile1;
-    private javax.swing.JTextField nom_logfile;
-    private javax.swing.JTextField nom_logfile1;
     private javax.swing.JComboBox<String> schema_Selec;
     private javax.swing.JComboBox<String> schema_respaldo;
-    private javax.swing.JComboBox<String> tabla_selec;
+    private javax.swing.JComboBox<String> tabla_selec1;
     // End of variables declaration//GEN-END:variables
 }
