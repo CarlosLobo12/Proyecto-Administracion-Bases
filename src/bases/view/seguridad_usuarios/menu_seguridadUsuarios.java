@@ -7,8 +7,11 @@ package bases.view.seguridad_usuarios;
 
 import bases.model.Modelo;
 import bases.view.menuprincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,11 +22,36 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
     /**
      * Creates new form menu_seguridadUsuarios
      */
-    public menu_seguridadUsuarios() {
+    public menu_seguridadUsuarios() throws SQLException {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        comboUsuarios();
     }
+    
+    public void comboUsuarios () throws SQLException {
+    
+     Modelo modelo = new Modelo();
+    
+    String sql ="SELECT USERNAME FROM DBA_USERS";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      usuario_permisos.addItem(resultados.getString("USERNAME"));
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_seguridadUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,15 +69,7 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         nom_usuario = new javax.swing.JTextField();
         opc_connect = new javax.swing.JCheckBox();
-        opc_execute = new javax.swing.JCheckBox();
-        opc_sysdba = new javax.swing.JCheckBox();
         btn_crearUsuario = new javax.swing.JButton();
-        create_session = new javax.swing.JCheckBox();
-        jLabel7 = new javax.swing.JLabel();
-        opc_insert = new javax.swing.JCheckBox();
-        opc_Select = new javax.swing.JCheckBox();
-        opc_update = new javax.swing.JCheckBox();
-        opc_Delete = new javax.swing.JCheckBox();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -82,28 +102,12 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
 
         opc_connect.setText("Grant connect");
 
-        opc_execute.setText("Grant execute");
-
-        opc_sysdba.setText("Grant sysdba");
-
         btn_crearUsuario.setText("Crear nuevo usuario");
         btn_crearUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_crearUsuarioActionPerformed(evt);
             }
         });
-
-        create_session.setText("Grant create session");
-
-        jLabel7.setText("Permisos de system");
-
-        opc_insert.setText("Insert");
-
-        opc_Select.setText("Select");
-
-        opc_update.setText("Update");
-
-        opc_Delete.setText("Delete");
 
         jLabel8.setText("Ver permisos de usuarios");
 
@@ -114,8 +118,6 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
         area_permisos.setColumns(20);
         area_permisos.setRows(5);
         jScrollPane2.setViewportView(area_permisos);
-
-        usuario_permisos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btn_buscarPermisos.setText("Buscar permisos");
 
@@ -130,19 +132,9 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_regresar2))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(435, 435, 435)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(171, 171, 171)
-                .addComponent(btn_crearUsuario)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(435, 435, 435)
+                .addComponent(jLabel1)
+                .addContainerGap(451, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -152,34 +144,26 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
                         .addGroup(layout.createSequentialGroup()
                             .addGap(84, 84, 84)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel7)
-                                    .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(opc_update)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(2, 2, 2)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(opc_Delete)
-                                                .addComponent(opc_Select)))
-                                        .addComponent(opc_insert)))
-                                .addComponent(jLabel4)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel11)
                                     .addGap(63, 63, 63)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(opc_sysdba)
-                                        .addComponent(opc_execute)
                                         .addComponent(opc_connect)
-                                        .addComponent(create_session)
                                         .addComponent(all_privileges)
                                         .addComponent(permiso_resource)
-                                        .addComponent(pass_usuario)))))
+                                        .addComponent(pass_usuario)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel4))
+                                    .addGap(100, 100, 100))))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(217, 217, 217)
-                            .addComponent(nom_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
+                            .addComponent(nom_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addComponent(btn_crearUsuario)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,6 +186,10 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
                                 .addComponent(btn_buscarPermisos)
                                 .addGap(73, 73, 73)))))
                 .addGap(160, 160, 160))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_regresar2)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,6 +198,20 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(usuario_permisos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(pass_usuarioPermisos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_buscarPermisos))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
@@ -225,50 +227,16 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(7, 7, 7)
                                 .addComponent(jLabel4))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(opc_connect)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(opc_execute)
-                                .addGap(2, 2, 2)
-                                .addComponent(opc_sysdba)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(create_session))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel8)
+                            .addComponent(opc_connect))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(usuario_permisos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(permiso_resource)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(pass_usuarioPermisos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_buscarPermisos)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(permiso_resource)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(all_privileges)
-                .addGap(41, 41, 41)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_regresar2)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(opc_insert))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(opc_update)
-                        .addGap(4, 4, 4)
-                        .addComponent(opc_Select)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(opc_Delete)
+                        .addComponent(all_privileges)
                         .addGap(18, 18, 18)
-                        .addComponent(btn_crearUsuario)
-                        .addGap(27, 27, 27))))
+                        .addComponent(btn_crearUsuario)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_regresar2)
+                .addContainerGap())
         );
 
         pack();
@@ -289,15 +257,17 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
         
         try {
             modelo.crearUsuario(user, pass);
-            /*if(opc_connect.isSelected()){
+            if(opc_connect.isSelected()){
                 modelo.permisoConnect(user);
-            }else if(opc_execute.isSelected()){
+            }else if(permiso_resource.isSelected()){
                 modelo.permisoResource(user);
             }else if(all_privileges.isSelected()){
                 modelo.permisoAllPrivileges(user);
-            }*/
+            }
+            JOptionPane.showConfirmDialog(null, "Usuario creado correctamente");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(menu_seguridadUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showConfirmDialog(null, "Ocurrio un error, vuelva a intentarlo!");
         }
     }//GEN-LAST:event_btn_crearUsuarioActionPerformed
 
@@ -331,7 +301,11 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new menu_seguridadUsuarios().setVisible(true);
+                try {
+                    new menu_seguridadUsuarios().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(menu_seguridadUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -344,25 +318,17 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
     private javax.swing.JButton btn_buscarPermisos;
     private javax.swing.JButton btn_crearUsuario;
     private javax.swing.JButton btn_regresar2;
-    private javax.swing.JCheckBox create_session;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField nom_usuario;
-    private javax.swing.JCheckBox opc_Delete;
-    private javax.swing.JCheckBox opc_Select;
     private javax.swing.JCheckBox opc_connect;
-    private javax.swing.JCheckBox opc_execute;
-    private javax.swing.JCheckBox opc_insert;
-    private javax.swing.JCheckBox opc_sysdba;
-    private javax.swing.JCheckBox opc_update;
     private javax.swing.JTextField pass_usuario;
     private javax.swing.JTextField pass_usuarioPermisos;
     private javax.swing.JCheckBox permiso_resource;

@@ -141,7 +141,7 @@ public class Modelo {
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
-         ResultSet resultados = baseDatos.consultar("GRANT CONNECT TO " + user + ""); 
+         ResultSet resultados = baseDatos.consultar("GRANT CONNECT TO \"" + user + "\""); 
          return resultados;
     }
     
@@ -149,7 +149,7 @@ public class Modelo {
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
-         ResultSet resultados = baseDatos.consultar("GRANT RESOURCE, CREATE SESSION TO "+user+""); 
+         ResultSet resultados = baseDatos.consultar("GRANT RESOURCE, CREATE SESSION TO \"" + user + "\""); 
          return resultados;
     }
     
@@ -157,7 +157,7 @@ public class Modelo {
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
-         ResultSet resultados = baseDatos.consultar("GRANT ALL PRIVILEGES TO " + user + ""); 
+         ResultSet resultados = baseDatos.consultar("GRANT ALL PRIVILEGES TO \"" + user + "\""); 
          return resultados;
     }
     
@@ -169,7 +169,7 @@ public class Modelo {
          return resultados;
     }
     
-    public ResultSet mostrarRoles() throws ClassNotFoundException{
+    public ResultSet mostrarPermisosUsuarios() throws ClassNotFoundException{
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
