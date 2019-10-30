@@ -36,6 +36,21 @@ public class OracleDB {
          e.printStackTrace();
         }        return this;
     }
+        public OracleDB conectar (String schema,String contrasena) throws ClassNotFoundException{
+        try {
+             Class.forName("oracle.jdbc.driver.OracleDriver");
+            String BaseDeDatos = "jdbc:oracle:thin:@localhost:1521:xe";
+            
+            conecction = DriverManager.getConnection(BaseDeDatos,schema,contrasena);            
+            if (conecction != null) {
+                System.out.println("Conexion exitosa!");
+             } else {
+                System.out.println("Conexion fallida!");
+            }
+        } catch (Exception e) {
+         e.printStackTrace();
+        }        return this;
+    }
     public boolean ejecutar( String sql){
         try {
             Statement sentencia;
