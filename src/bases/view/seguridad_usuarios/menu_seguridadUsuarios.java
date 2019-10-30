@@ -5,7 +5,10 @@
  */
 package bases.view.seguridad_usuarios;
 
+import bases.model.Modelo;
 import bases.view.menuprincipal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -84,6 +87,11 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
         opc_sysdba.setText("Grant sysdba");
 
         btn_crearUsuario.setText("Crear nuevo usuario");
+        btn_crearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_crearUsuarioActionPerformed(evt);
+            }
+        });
 
         create_session.setText("Grant create session");
 
@@ -273,6 +281,26 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
         menu.setVisible(true);
     }//GEN-LAST:event_btn_regresar2ActionPerformed
 
+    private void btn_crearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearUsuarioActionPerformed
+        // TODO add your handling code here:
+        String user = nom_usuario.getText();
+        String pass = pass_usuario.getText();
+        Modelo modelo = new Modelo();
+        
+        try {
+            modelo.crearUsuario(user, pass);
+            /*if(opc_connect.isSelected()){
+                modelo.permisoConnect(user);
+            }else if(opc_execute.isSelected()){
+                modelo.permisoResource(user);
+            }else if(all_privileges.isSelected()){
+                modelo.permisoAllPrivileges(user);
+            }*/
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_seguridadUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_crearUsuarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -307,6 +335,8 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
             }
         });
     }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox all_privileges;
