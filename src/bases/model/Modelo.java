@@ -132,7 +132,6 @@ public class Modelo {
          baseDatos.conectar();
          String sql = "alter session set \""+"_ORACLE_SCRIPT"+"\" = TRUE ";
          String sql3 =new String("CREATE USER \"" + nombre + "\" IDENTIFIED BY \"" + contrasena+ "\"");
-         //String sql2 = "CREATE USER '"+nombre+"' IDENTIFIED BY "+contrasena+" ";
          ResultSet alter = baseDatos.consultar(sql);
          ResultSet resultados = baseDatos.consultar(sql3); 
          return resultados;
