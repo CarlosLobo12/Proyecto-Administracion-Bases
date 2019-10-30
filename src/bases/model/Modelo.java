@@ -130,7 +130,7 @@ public class Modelo {
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
-         String sql = "alter session set \""+"_ORACLE_SCRIPT"+"\" = TRUE ";
+         String sql = "alter session set \""+"_ORACLE_SCRIPT"+"\" = TRUE ";//asi se coloca las comillas doblers 
          String sql3 =new String("CREATE USER \"" + nombre + "\" IDENTIFIED BY \"" + contrasena+ "\"");
          ResultSet alter = baseDatos.consultar(sql);
          ResultSet resultados = baseDatos.consultar(sql3); 
