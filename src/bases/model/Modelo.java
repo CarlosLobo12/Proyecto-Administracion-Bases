@@ -38,6 +38,27 @@ public class Modelo {
             return (ResultSet) this;
         } 
     }
+    public ResultSet respaldoTabla(String tabla, String usuario,String contrasena,String directorio) throws ClassNotFoundException{
+        
+        OracleDB basesDatos = new OracleDB();
+        basesDatos.conectar(usuario, contrasena);
+        
+        ResultSet resultado = null;
+        
+        String sql = "EXPDP " + usuario + "/" + contrasena + 
+                "@XE TABLES="+usuario+"." + tabla + " DIRECTORY="+"C:/"+" DUMPFILE=" + tabla + ".DMP LOGFILE=" + tabla + ".LOG";
+        try {
+            Statement sentencia;
+            sentencia = basesDatos.getConecction().createStatement();
+            resultado = sentencia.executeQuery(sql);
+            //getConecction().commit();
+            return resultado;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (ResultSet) this;
+        } 
+        
+    }
     public ResultSet conectaVal(String schema, String contrasena, String sql) throws ClassNotFoundException{
         OracleDB basesDatos = new OracleDB();
         basesDatos.conectar(schema, contrasena);

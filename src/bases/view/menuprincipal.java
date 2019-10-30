@@ -16,6 +16,9 @@ import bases.view.respaldos_y_directorios.menu_respaldos;
 import bases.view.seguridad_usuarios.menu_seguridadRoles;
 import bases.view.seguridad_usuarios.menu_seguridadUsuarios;
 import bases.view.tunning.menu_tunning;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -249,7 +252,12 @@ public class menuprincipal extends javax.swing.JFrame {
 
     private void boton_seguridadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_seguridadActionPerformed
         // TODO add your handling code here:
-        menu_seguridadUsuarios menu = new menu_seguridadUsuarios();
+        menu_seguridadUsuarios menu = null;
+        try {
+            menu = new menu_seguridadUsuarios();
+        } catch (SQLException ex) {
+            Logger.getLogger(menuprincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_boton_seguridadActionPerformed
