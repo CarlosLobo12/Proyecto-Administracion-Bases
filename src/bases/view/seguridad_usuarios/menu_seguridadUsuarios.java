@@ -120,6 +120,11 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
         jScrollPane2.setViewportView(area_permisos);
 
         btn_buscarPermisos.setText("Buscar permisos");
+        btn_buscarPermisos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_buscarPermisosActionPerformed(evt);
+            }
+        });
 
         permiso_resource.setText("Grant resource");
 
@@ -270,6 +275,11 @@ public class menu_seguridadUsuarios extends javax.swing.JFrame {
             JOptionPane.showConfirmDialog(null, "Ocurrio un error, vuelva a intentarlo!");
         }
     }//GEN-LAST:event_btn_crearUsuarioActionPerformed
+
+    private void btn_buscarPermisosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_buscarPermisosActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btn_buscarPermisosActionPerformed
 
     /**
      * @param args the command line arguments

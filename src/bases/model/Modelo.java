@@ -169,10 +169,10 @@ public class Modelo {
          return resultados;
     }
     
-    public ResultSet mostrarPermisosUsuarios() throws ClassNotFoundException{
+    public ResultSet mostrarPermisosUsuarios(String usuario, String contrasena) throws ClassNotFoundException{
         
         OracleDB baseDatos = new OracleDB(); 
-         baseDatos.conectar();
+         baseDatos.conectar(usuario, contrasena);
          ResultSet resultados = baseDatos.consultar("select USERNAME,GRANTED_ROLE from user_role_privs"); 
          return resultados;
     }

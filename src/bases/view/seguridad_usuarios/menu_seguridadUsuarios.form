@@ -256,6 +256,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Buscar permisos"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_buscarPermisosActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="permiso_resource">
       <Properties>
