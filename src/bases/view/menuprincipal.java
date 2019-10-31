@@ -44,10 +44,10 @@ public class menuprincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        boton_admRespaldosDirectorios = new javax.swing.JButton();
         titulo = new javax.swing.JLabel();
         boton_recuperaRespaldo = new javax.swing.JButton();
         boton_creacionRespaldo = new javax.swing.JButton();
-        boton_admRespaldosDirectorios = new javax.swing.JButton();
         boton_admSchemas = new javax.swing.JButton();
         boton_admTablespaces = new javax.swing.JButton();
         boton_performance = new javax.swing.JButton();
@@ -56,6 +56,13 @@ public class menuprincipal extends javax.swing.JFrame {
         boton_seguridad = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         boton_seguridadRoles = new javax.swing.JButton();
+
+        boton_admRespaldosDirectorios.setText("Respaldos ");
+        boton_admRespaldosDirectorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boton_admRespaldosDirectoriosActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,13 +79,6 @@ public class menuprincipal extends javax.swing.JFrame {
         boton_creacionRespaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boton_creacionRespaldoActionPerformed(evt);
-            }
-        });
-
-        boton_admRespaldosDirectorios.setText("Respaldos ");
-        boton_admRespaldosDirectorios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boton_admRespaldosDirectoriosActionPerformed(evt);
             }
         });
 
@@ -153,7 +153,6 @@ public class menuprincipal extends javax.swing.JFrame {
                         .addComponent(boton_admTablespaces)
                         .addComponent(boton_tunning)
                         .addComponent(boton_admSchemas)
-                        .addComponent(boton_admRespaldosDirectorios)
                         .addComponent(boton_recuperaRespaldo)
                         .addComponent(boton_creacionRespaldo)
                         .addComponent(boton_seguridadRoles))
@@ -167,9 +166,7 @@ public class menuprincipal extends javax.swing.JFrame {
                 .addComponent(titulo)
                 .addGap(18, 18, 18)
                 .addComponent(boton_creacionRespaldo)
-                .addGap(18, 18, 18)
-                .addComponent(boton_admRespaldosDirectorios)
-                .addGap(18, 18, 18)
+                .addGap(61, 61, 61)
                 .addComponent(boton_recuperaRespaldo)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
