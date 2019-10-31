@@ -152,7 +152,7 @@ public class Modelo {
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
          String sql = "alter session set \""+"_ORACLE_SCRIPT"+"\" = TRUE ";//asi se coloca las comillas doblers 
-         String sql3 =new String("CREATE USER \"" + nombre + "\" IDENTIFIED BY \"" + contrasena+ "\"");
+         String sql3 =new String("CREATE USER " + nombre + " IDENTIFIED BY " + contrasena+ "");
          ResultSet alter = baseDatos.consultar(sql);
          ResultSet resultados = baseDatos.consultar(sql3); 
          return resultados;
@@ -162,7 +162,7 @@ public class Modelo {
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
-         ResultSet resultados = baseDatos.consultar("GRANT CONNECT TO \"" + user + "\""); 
+         ResultSet resultados = baseDatos.consultar("GRANT CONNECT TO " + user + ""); 
          return resultados;
     }
     
@@ -170,7 +170,7 @@ public class Modelo {
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
-         ResultSet resultados = baseDatos.consultar("GRANT RESOURCE, CREATE SESSION TO \"" + user + "\""); 
+         ResultSet resultados = baseDatos.consultar("GRANT RESOURCE, CREATE SESSION TO " + user + ""); 
          return resultados;
     }
     
@@ -178,7 +178,7 @@ public class Modelo {
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
-         ResultSet resultados = baseDatos.consultar("GRANT ALL PRIVILEGES TO \"" + user + "\""); 
+         ResultSet resultados = baseDatos.consultar("GRANT ALL PRIVILEGES TO " + user + ""); 
          return resultados;
     }
     
