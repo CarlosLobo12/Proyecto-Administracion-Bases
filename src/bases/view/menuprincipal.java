@@ -271,7 +271,12 @@ public class menuprincipal extends javax.swing.JFrame {
 
     private void boton_seguridadRolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_seguridadRolesActionPerformed
         // TODO add your handling code here:
-        menu_seguridadRoles menu = new menu_seguridadRoles();
+        menu_seguridadRoles menu = null;
+        try {
+            menu = new menu_seguridadRoles();
+        } catch (SQLException ex) {
+            Logger.getLogger(menuprincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_boton_seguridadRolesActionPerformed

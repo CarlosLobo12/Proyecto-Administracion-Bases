@@ -82,6 +82,8 @@ public class Modelo {
          OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
          ResultSet resultados = null;
+         String sql = "alter session set \""+"_ORACLE_SCRIPT"+"\" = TRUE ";
+         ResultSet alter = baseDatos.consultar(sql);
          if(rol.isEmpty()){
              JOptionPane.showMessageDialog(null, "El rol no puede estar vacio, vuelva a intentarlo");
          }else{
@@ -98,12 +100,22 @@ public class Modelo {
     public ResultSet verRoles(String user, String password) throws ClassNotFoundException{
         
         OracleDB baseDatos = new OracleDB(); 
-         baseDatos.conectar();
+         baseDatos.conectar(user, password);
          ResultSet resultados = baseDatos.consultar("select role, granted_role from role_role_privs"); 
-       return resultados;
+        return resultados;
     }
     
-    public ResultSet mostrarRoles(String usuario, String password) throws ClassNotFoundException{
+    public ResultSet asignarRolUsuario(String rol, String user) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet sql = baseDatos.consultar("GRANT CONNECT TO "+rol+"");
+         ResultSet sql2 = baseDatos.consultar("GRANT "+rol+" TO "+user+"");
+         
+        return sql2;
+    }
+    
+    public ResultSet mostrarRoles() throws ClassNotFoundException{
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
@@ -197,5 +209,7 @@ public class Modelo {
          ResultSet resultados = baseDatos.consultar("select USERNAME,GRANTED_ROLE from user_role_privs"); 
          return resultados;
     }
+    
+    //terminan metodos del la ventana de usuarios 
     
 }
