@@ -5,7 +5,14 @@
  */
 package bases.view.recuperacion_respaldos;
 
+import bases.model.Modelo;
+import bases.view.admin_tablespaces.menu_admin_tablespaces;
+import bases.view.creacion_respaldos.menu_creacion_respaldos;
 import bases.view.menuprincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,12 +24,165 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
      * Creates new form menu_recuperacionRespaldos
      */
     public menu_recuperacionRespaldos() {
-        initComponents();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
+        try {
+            initComponents();
+            comboDirectorios();
+            comboUsuarios();
+            comboSquemas();
+            this.setResizable(false);
+            this.setLocationRelativeTo(null);
+        } catch (SQLException ex) {
+            Logger.getLogger(menu_recuperacionRespaldos.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+    
+    public void comboUsuarios () throws SQLException {
+    
+     Modelo modelo = new Modelo();
+    
+    String sql ="SELECT USERNAME FROM DBA_USERS";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      check_ususario.addItem(resultados.getString("USERNAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
 
-    /**
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+    
+
+        
+public void comboDirectorios () throws SQLException{
+    
+    Modelo modelo = new Modelo();
+    
+    String sql ="select DIRECTORY_NAME from all_directories";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      directorio_Recuperar.addItem(resultados.getString("DIRECTORY_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+    String sql2 ="select DIRECTORY_NAME from all_directories";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql2);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      directorio_RecuperarSchema.addItem(resultados.getString("DIRECTORY_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+    
+
+
+public void comboTabla() throws SQLException{
+    
+      Modelo modelo = new Modelo();
+    
+    String sql ="SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER = '" + check_ususario.getSelectedItem() + "'";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      comboTabla.addItem(resultados.getString("TABLE_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+
+
+public void comboSquemas() throws SQLException{
+    
+    Modelo modelo = new Modelo();
+    
+    String sql ="SELECT USERNAME FROM DBA_USERS";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      check_schema.addItem(resultados.getString("USERNAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+
+
+/**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
@@ -40,9 +200,9 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
         tabla_Recuperar = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        check_conexion = new javax.swing.JComboBox<>();
+        check_ususario = new javax.swing.JComboBox<>();
         password_conexion = new javax.swing.JTextField();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        comboTabla = new javax.swing.JComboBox<>();
         directorio_Recuperar = new javax.swing.JComboBox<>();
         btn_recuperar = new javax.swing.JButton();
         btn_recuperarFull = new javax.swing.JButton();
@@ -71,7 +231,7 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
 
         jLabel4.setText("Recuperacion Full");
 
-        jLabel5.setText("Selccione la conexion:");
+        jLabel5.setText("Selccione Ususrio");
 
         tabla_Recuperar.setText("Tabla a recuperar:");
 
@@ -79,15 +239,25 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
 
         jLabel8.setText("Seleccione el directorio:");
 
-        check_conexion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        directorio_Recuperar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        check_ususario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                check_ususarioActionPerformed(evt);
+            }
+        });
 
         btn_recuperar.setText("Recuperar tabla");
+        btn_recuperar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_recuperarActionPerformed(evt);
+            }
+        });
 
         btn_recuperarFull.setText("Recuperar Full");
+        btn_recuperarFull.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_recuperarFullActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Selccione el Schema:");
 
@@ -95,11 +265,12 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
 
         jLabel10.setText("Seleccione el directorio:");
 
-        check_schema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        directorio_RecuperarSchema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         btn_recuperar1.setText("Recuperar schema");
+        btn_recuperar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_recuperar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,9 +295,9 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
                     .addComponent(tabla_Recuperar, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(check_conexion, 0, 157, Short.MAX_VALUE)
+                    .addComponent(check_ususario, 0, 157, Short.MAX_VALUE)
                     .addComponent(password_conexion)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboTabla, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(directorio_Recuperar, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -180,7 +351,7 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel5)
-                                    .addComponent(check_conexion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(check_ususario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(15, 15, 15)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel7)
@@ -188,7 +359,7 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(tabla_Recuperar)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(comboTabla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel8)
@@ -225,6 +396,84 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_btn_regresar1ActionPerformed
+
+    private void check_ususarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_ususarioActionPerformed
+        // TODO add your handling code here:
+         try {
+            // TODO add your handling code here:
+            comboTabla.removeAllItems();
+            comboTabla();
+         } catch (SQLException ex) {
+            Logger.getLogger(menu_creacion_respaldos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_check_ususarioActionPerformed
+
+    private void btn_recuperarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recuperarActionPerformed
+        // TODO add your handling code here:
+        
+        Modelo modelo = new Modelo();
+        
+          String usuario = (String) check_ususario.getSelectedItem();
+          String contracena = password_conexion.getText();
+          String tabla = (String) comboTabla.getSelectedItem();
+          String directorio = (String) directorio_Recuperar.getSelectedItem();
+          String sql = "IMPDP " + usuario + "/" + 
+                  contracena + "@XE TABLES="+usuario+"." + tabla + " DIRECTORY="+directorio+" DUMPFILE=" + tabla + ".DMP LOGFILE=" + tabla + ".LOG;";
+        
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);      
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_recuperarActionPerformed
+
+    private void btn_recuperar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recuperar1ActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+       String usuario = (String) check_schema.getSelectedItem();
+       String contracena = password_schema.getText();
+       String directorio = (String) directorio_RecuperarSchema.getSelectedItem();
+       
+       String sql = "IMPDP " + usuario + "/" + contracena + "@XE SCHEMAS=" + 
+                usuario + " DIRECTORY="+directorio+" DUMPFILE=" + usuario + ".DMP LOGFILE=" + usuario + ".LOG;";
+        
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);      
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_recuperar1ActionPerformed
+
+    private void btn_recuperarFullActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recuperarFullActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();     
+       String sql = "IMPDP SYSTEM/root@XE FULL=Y DIRECTORY=RESPALDO DUMPFILE=XE.DMP LOGFILE=XE.LOG;";
+        
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);      
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_recuperarFullActionPerformed
 
     /**
      * @param args the command line arguments
@@ -266,11 +515,11 @@ public class menu_recuperacionRespaldos extends javax.swing.JFrame {
     private javax.swing.JButton btn_recuperar1;
     private javax.swing.JButton btn_recuperarFull;
     private javax.swing.JButton btn_regresar1;
-    private javax.swing.JComboBox<String> check_conexion;
     private javax.swing.JComboBox<String> check_schema;
+    private javax.swing.JComboBox<String> check_ususario;
+    private javax.swing.JComboBox<String> comboTabla;
     private javax.swing.JComboBox<String> directorio_Recuperar;
     private javax.swing.JComboBox<String> directorio_RecuperarSchema;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

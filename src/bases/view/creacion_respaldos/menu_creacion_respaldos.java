@@ -274,10 +274,16 @@ public void comboSquemas() throws SQLException{
 
         jLabel11.setText("Creacion de respaldo Full");
 
-        jButton2.setText("Recuperar Full");
+        jButton2.setText("Respaldo Full");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
+            }
+        });
+
+        tabla_sele.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tabla_seleActionPerformed(evt);
             }
         });
 
@@ -489,6 +495,10 @@ public void comboSquemas() throws SQLException{
             Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tabla_seleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tabla_seleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tabla_seleActionPerformed
 
     /**
      * @param args the command line arguments
