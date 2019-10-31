@@ -5,7 +5,14 @@
  */
 package bases.view.seguridad_usuarios;
 
+import bases.model.Modelo;
 import bases.view.menuprincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,10 +23,12 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
     /**
      * Creates new form menu_seguridadRoles
      */
-    public menu_seguridadRoles() {
+    public menu_seguridadRoles() throws SQLException {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        comboUsuarios();
+        comboRoles();
     }
 
     /**
@@ -36,7 +45,6 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
         nom_rol = new javax.swing.JTextField();
         btn_crearRol = new javax.swing.JButton();
         pass_rol = new javax.swing.JLabel();
-        pass_Rol = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -50,8 +58,6 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
         pass_userVerRol = new javax.swing.JTextField();
         user_verRol = new javax.swing.JComboBox<>();
         btn_verRol = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
         btn_regresar = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -64,6 +70,10 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
         opc_update = new javax.swing.JCheckBox();
         jLabel13 = new javax.swing.JLabel();
         permisoRol_usuario = new javax.swing.JComboBox<>();
+        contrasena_rol = new javax.swing.JTextField();
+        btnAsignaPermisosRol = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabla_roles = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -72,6 +82,11 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
         jLabel6.setText("Nombre rol:");
 
         btn_crearRol.setText("Crear nuevo rol");
+        btn_crearRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_crearRolActionPerformed(evt);
+            }
+        });
 
         pass_rol.setText("Password:");
 
@@ -83,11 +98,18 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
 
         jLabel4.setText("Seleccione el usuario:");
 
-        rol_selec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        user_Selec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        rol_selec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rol_selecActionPerformed(evt);
+            }
+        });
 
         btn_asignarRol.setText("Asignar rol");
+        btn_asignarRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_asignarRolActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Ver roles");
 
@@ -95,13 +117,12 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
 
         jLabel9.setText("Password:");
 
-        user_verRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         btn_verRol.setText("Ver rol");
-
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        btn_verRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_verRolActionPerformed(evt);
+            }
+        });
 
         btn_regresar.setText("Regresar");
         btn_regresar.addActionListener(new java.awt.event.ActionListener() {
@@ -116,9 +137,17 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
 
         jLabel12.setText("Seleccione la tabla:");
 
-        permisoRol_schema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        permisoRol_schema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                permisoRol_schemaActionPerformed(evt);
+            }
+        });
 
-        permisoRol_tabla.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        permisoRol_tabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                permisoRol_tablaActionPerformed(evt);
+            }
+        });
 
         opc_insert.setText("Insert");
 
@@ -135,7 +164,25 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
 
         jLabel13.setText("Seleccione el usuario:");
 
-        permisoRol_usuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        btnAsignaPermisosRol.setText("Dar permisos");
+        btnAsignaPermisosRol.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsignaPermisosRolActionPerformed(evt);
+            }
+        });
+
+        tabla_roles.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Rol", "Rol Asignado"
+            }
+        ));
+        jScrollPane2.setViewportView(tabla_roles);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,84 +201,91 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
                                     .addComponent(jLabel6)
                                     .addComponent(pass_rol))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(pass_Rol, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(nom_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel5))
-                                        .addGap(83, 83, 83))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(86, 86, 86)
-                                .addComponent(pass_userVerRol, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(18, 18, 18)
-                                .addComponent(user_verRol, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(nom_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel5)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addGap(22, 22, 22)
+                                                .addComponent(jLabel7)))
+                                        .addGap(83, 83, 83))
+                                    .addComponent(contrasena_rol, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel9)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(pass_userVerRol, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel8)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(user_verRol, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
+                        .addGap(158, 158, 158)
+                        .addComponent(btn_verRol)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(212, 212, 212)
+                        .addComponent(jLabel13)
+                        .addGap(18, 18, 18)
+                        .addComponent(permisoRol_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(54, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(210, 210, 210)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(180, 180, 180)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel12)
-                                    .addComponent(jLabel13))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel12))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(permisoRol_usuario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGap(22, 22, 22)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(22, 22, 22)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(user_Selec, 0, 161, Short.MAX_VALUE)
-                                                    .addComponent(rol_selec, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addComponent(permisoRol_schema, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                            .addGap(18, 18, 18)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(opc_insert)
-                                                .addComponent(permisoRol_tabla, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(opc_update)
-                                                .addComponent(opc_select)
-                                                .addComponent(opc_Delete)))))
-                                .addGap(0, 41, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(210, 210, 210))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btn_asignarRol)
-                                .addGap(222, 222, 222))))
+                                            .addComponent(user_Selec, 0, 161, Short.MAX_VALUE)
+                                            .addComponent(rol_selec, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(opc_insert)
+                                            .addComponent(opc_update)
+                                            .addComponent(opc_select)
+                                            .addComponent(opc_Delete))
+                                        .addGap(96, 96, 96))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(20, 20, 20)
+                                        .addComponent(permisoRol_tabla, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel11)
+                                .addGap(18, 18, 18)
+                                .addComponent(permisoRol_schema, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel2)
+                        .addGap(210, 210, 210))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btn_regresar)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(200, 200, 200))))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(157, 157, 157)
-                .addComponent(btn_verRol)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btn_asignarRol)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(btn_regresar)
+                                    .addContainerGap())
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(jLabel10)
+                                    .addGap(200, 200, 200)))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(401, 401, 401))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAsignaPermisosRol)
+                .addGap(142, 142, 142))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,23 +306,21 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
                             .addComponent(rol_selec, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(pass_rol))
+                                .addGap(0, 24, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(pass_rol)
+                                    .addComponent(contrasena_rol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
                                     .addComponent(user_Selec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 3, Short.MAX_VALUE)))
+                                .addGap(0, 6, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addComponent(btn_asignarRol))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(nom_rol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addComponent(pass_Rol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                        .addComponent(nom_rol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
                         .addComponent(btn_crearRol)
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -276,18 +328,6 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
                             .addComponent(jLabel10))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(user_verRol, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(pass_userVerRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_verRol)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
@@ -299,16 +339,33 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(opc_insert)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(opc_select)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(opc_select)
+                            .addComponent(btn_verRol))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(opc_Delete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(opc_Delete))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(user_verRol, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pass_userVerRol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(opc_update)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
                             .addComponent(permisoRol_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAsignaPermisosRol)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                         .addComponent(btn_regresar)))
                 .addContainerGap())
         );
@@ -326,6 +383,205 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
     private void opc_DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opc_DeleteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_opc_DeleteActionPerformed
+
+    
+    public void comboUsuarios () throws SQLException {
+    
+     Modelo modelo = new Modelo();
+    
+     String sql ="SELECT USERNAME FROM DBA_USERS";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      user_verRol.addItem(resultados.getString("USERNAME"));
+                      user_Selec.addItem(resultados.getString("USERNAME"));
+                      permisoRol_schema.addItem(resultados.getString("USERNAME"));
+                      permisoRol_usuario.addItem(resultados.getString("USERNAME"));
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_seguridadUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void comboRoles () throws SQLException {
+    
+     Modelo modelo = new Modelo();
+    
+     String sql ="select ROLE from DBA_ROLES";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      rol_selec.addItem(resultados.getString("ROLE"));
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_seguridadUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public DefaultTableModel tabla;
+    private void btn_crearRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearRolActionPerformed
+        // TODO add your handling code here:
+        
+        Modelo modelo = new Modelo();
+        
+        String rol = nom_rol.getText();
+        String pass = contrasena_rol.getText();
+        
+        try {
+            modelo.crearRol(rol, pass);
+            JOptionPane.showConfirmDialog(null, "Rol creado correctamente");
+            comboRoles();
+            comboUsuarios();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_seguridadRoles.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showConfirmDialog(null, "Error al crear el rol, intente nuevamente!");
+        } catch (SQLException ex) {
+            Logger.getLogger(menu_seguridadRoles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_btn_crearRolActionPerformed
+
+    private void permisoRol_schemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_permisoRol_schemaActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            permisoRol_tabla.removeAllItems();
+            comboTabla();
+         } catch (SQLException ex) {
+            Logger.getLogger(menu_seguridadRoles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_permisoRol_schemaActionPerformed
+
+    private void btn_verRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verRolActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+        String usuario = (String) user_verRol.getSelectedItem();
+        String pass = pass_userVerRol.getText();
+  
+        try {
+            ResultSet resultados = modelo.mostrarPermisosUsuarios(usuario, pass);
+            tabla = new DefaultTableModel();
+            
+            tabla_roles.setModel(tabla);
+            tabla.addColumn("Rol");
+            tabla.addColumn("Rol asignado");
+            
+            while(resultados.next()){
+                Object dato[]= new Object [2];
+                
+                for(int i=0; i<2; i++){
+                    dato[i] = resultados.getObject(i+1);
+                }
+                tabla.addRow(dato);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(menu_seguridadUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_seguridadUsuarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btn_verRolActionPerformed
+
+    private void btn_asignarRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_asignarRolActionPerformed
+        // TODO add your handling code here:
+        
+        Modelo modelo = new Modelo();
+        
+        String rol = (String) rol_selec.getSelectedItem();
+        String user = (String) user_Selec.getSelectedItem();
+        
+        try {
+            modelo.asignarRolUsuario(rol, user);
+            JOptionPane.showMessageDialog(null, "Rol asignado al usuario correctamente");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_seguridadRoles.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Ocurrio un error durante la asignacion, intentelo nuevamente!");
+        }
+        
+        
+    }//GEN-LAST:event_btn_asignarRolActionPerformed
+
+    private void rol_selecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rol_selecActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rol_selecActionPerformed
+
+    public void comboTabla() throws SQLException{
+    
+      Modelo modelo = new Modelo();
+    
+    String sql ="SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER = '" + permisoRol_schema.getSelectedItem() + "'";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      permisoRol_tabla.addItem(resultados.getString("TABLE_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_seguridadRoles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+}
+    
+    private void btnAsignaPermisosRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignaPermisosRolActionPerformed
+        // TODO add your handling code here:
+        
+        Modelo modelo = new Modelo();
+        
+        String schema = (String) permisoRol_schema.getSelectedItem();
+        String table = (String) permisoRol_tabla.getSelectedItem();
+        String user = (String) permisoRol_usuario.getSelectedItem();
+        
+        try{
+        if(opc_insert.isSelected()){
+            modelo.rolInsert(schema, table, user);
+        }else if(opc_Delete.isSelected()){
+            modelo.rolDelete(schema, table, user);
+        }else if(opc_select.isSelected()){
+            modelo.rolSelect(schema, table, user);
+        }else if(opc_update.isSelected()){
+            modelo.rolUpdate(schema, table, user);
+        }
+        }catch(ClassNotFoundException ex){
+            Logger.getLogger(menu_seguridadRoles.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnAsignaPermisosRolActionPerformed
+
+    private void permisoRol_tablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_permisoRol_tablaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_permisoRol_tablaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -357,16 +613,22 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new menu_seguridadRoles().setVisible(true);
+                try {
+                    new menu_seguridadRoles().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(menu_seguridadRoles.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAsignaPermisosRol;
     private javax.swing.JButton btn_asignarRol;
     private javax.swing.JButton btn_crearRol;
     private javax.swing.JButton btn_regresar;
     private javax.swing.JButton btn_verRol;
+    private javax.swing.JTextField contrasena_rol;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -380,20 +642,19 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField nom_rol;
     private javax.swing.JCheckBox opc_Delete;
     private javax.swing.JCheckBox opc_insert;
     private javax.swing.JCheckBox opc_select;
     private javax.swing.JCheckBox opc_update;
-    private javax.swing.JPasswordField pass_Rol;
     private javax.swing.JLabel pass_rol;
     private javax.swing.JTextField pass_userVerRol;
     private javax.swing.JComboBox<String> permisoRol_schema;
     private javax.swing.JComboBox<String> permisoRol_tabla;
     private javax.swing.JComboBox<String> permisoRol_usuario;
     private javax.swing.JComboBox<String> rol_selec;
+    private javax.swing.JTable tabla_roles;
     private javax.swing.JComboBox<String> user_Selec;
     private javax.swing.JComboBox<String> user_verRol;
     // End of variables declaration//GEN-END:variables
