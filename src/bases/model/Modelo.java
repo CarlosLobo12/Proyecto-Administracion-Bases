@@ -212,4 +212,108 @@ public class Modelo {
     
     //terminan metodos del la ventana de usuarios 
     
+    ///////////////////////////////////////////////////////////////////////////
+    
+    //metodos de la ventana de auditoria
+    
+    public ResultSet auditoriaFull(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("audit all ON "  + usuario + "." + tabla +  "by access"); 
+         return resultados;
+    }
+    
+    public ResultSet auditoriaInsert(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("audit insert ON " + usuario + "." + tabla + " by access"); 
+         return resultados;
+    }
+    
+    public ResultSet auditoriaUpdate(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("audit update ON " + usuario + "." + tabla + " by access"); 
+         return resultados;
+    }
+    
+    public ResultSet auditoriaDelete(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("audit delete ON " + usuario + "." + tabla + " by access"); 
+         return resultados;
+    }
+    
+    public ResultSet auditoriaSelect(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("audit select ON " + usuario + "." + tabla + " by access"); 
+         return resultados;
+    }
+    
+    public ResultSet auditoriaBorrarFull(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("NOAUDIT all ON "+usuario+"."+tabla+""); 
+         return resultados;
+    }
+    
+    public ResultSet auditoriaBorrarInsert(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("NOAUDIT INSERT ON " + usuario + "." + tabla + ""); 
+         return resultados;
+    }
+    
+    public ResultSet auditoriaBorrarUpdate(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("NOAUDIT UPDATE ON " + usuario + "." + tabla + ""); 
+         return resultados;
+    }
+    
+    public ResultSet auditoriaBorrarDelete(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("NOAUDIT DELETE ON " + usuario + "." + tabla + ""); 
+         return resultados;
+    }
+    
+    public ResultSet auditoriaBorrarSelect(String usuario, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("NOAUDIT SELECT ON " + usuario + "." + tabla + ""); 
+         return resultados;
+    }
+    
+    public ResultSet iniciarAuditoria() throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("alter system set audit_trail=DB scope=spfile"); 
+         return resultados;
+    }
+    
+    public ResultSet mostrarAuditoria(String usuario, String contrasena) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar(usuario,contrasena);
+         ResultSet resultados = baseDatos.consultar("Select object_name, object_type, aud, del, ins, sel, upd,alt,aud,com,gra,ind,loc,ren,fbk from user_obj_audit_opts"); 
+         return resultados;
+    }
+    
+    
+    
+    //aca terminan los metodos de la ventana auditoria
+    
 }

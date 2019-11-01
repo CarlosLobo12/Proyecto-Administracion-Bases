@@ -242,7 +242,12 @@ public class menuprincipal extends javax.swing.JFrame {
 
     private void boton_auditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_auditoriaActionPerformed
         // TODO add your handling code here:
-        menu_auditoria menu = new menu_auditoria();
+        menu_auditoria menu = null;
+        try {
+            menu = new menu_auditoria();
+        } catch (SQLException ex) {
+            Logger.getLogger(menuprincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_boton_auditoriaActionPerformed
