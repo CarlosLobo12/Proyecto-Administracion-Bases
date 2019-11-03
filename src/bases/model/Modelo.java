@@ -316,4 +316,71 @@ public class Modelo {
     
     //aca terminan los metodos de la ventana auditoria
     
+    
+    //metodos de la ventana de estadisticas 
+    
+    public ResultSet estadisticaSchema(String schema) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("EXEC dbms_stats.gather_schema_stats('"+schema+"', cascade => true)"); 
+       return resultados;
+    }
+    
+    public ResultSet estadisticaTabla(String schema, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("EXEC DBMS_STATS.gather_table_stats('"+schema+"', '"+tabla+"', cascade => true)"); 
+       return resultados;
+    }
+    
+    public ResultSet MostrarEstadistica(String schema, String tabla, String contrasena) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar(schema,contrasena);
+         ResultSet resultados = baseDatos.consultar("SELECT * FROM USER_TAB_COL_STATISTICS WHERE table_name = '"+tabla+"'"); 
+       return resultados;
+    }
+    
+    public ResultSet analizarEstadistica(String schema, String tabla) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("ANALYZE TABLE "+schema+"."+tabla+" COMPUTE STATISTICS"); 
+       return resultados;
+    }
+    
+    //aca terminan los metodos de la ventana de estadisticas 
+    
+    
+    //metodos ventana de tunning
+    
+    public ResultSet borrarPlan() throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("DELETE PLAN_TABLE"); 
+       return resultados;
+    }
+    
+    public ResultSet crearPlan(String plan) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar(""+plan+""); 
+       return resultados;
+    }
+    
+    public ResultSet crearIndex(String tabla, String columna) throws ClassNotFoundException{
+        
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("CREATE INDEX IDX_" + tabla + " ON " + tabla+"("+columna+")"); 
+       return resultados;
+    }
+    
+    //aca terminan los metodos de la ventana de tunning
+    
+    
 }

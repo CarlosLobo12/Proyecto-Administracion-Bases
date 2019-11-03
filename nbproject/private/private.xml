@@ -4,9 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/view/seguridad_usuarios/menu_seguridadRoles.java</file>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/view/recuperacion_respaldos/menu_recuperacionRespaldos.java</file>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/view/menuprincipal.java</file>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/view/creacion_respaldos/menu_creacion_respaldos.java</file>
+            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/view/auditoria/menu_auditoria.java</file>
             <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/model/Modelo.java</file>
         </group>
     </open-files>

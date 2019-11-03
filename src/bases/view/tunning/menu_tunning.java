@@ -5,7 +5,13 @@
  */
 package bases.view.tunning;
 
+import bases.model.Modelo;
 import bases.view.menuprincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,10 +22,11 @@ public class menu_tunning extends javax.swing.JFrame {
     /**
      * Creates new form menu_tunning
      */
-    public menu_tunning() {
+    public menu_tunning() throws SQLException {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        comboUsuarios();
     }
 
     /**
@@ -38,7 +45,7 @@ public class menu_tunning extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        plan_ejecucion = new javax.swing.JTextArea();
         btn_CrearPlan = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -66,16 +73,26 @@ public class menu_tunning extends javax.swing.JFrame {
         jLabel2.setText("Borrar plan ");
 
         btn_eliminaPlan.setText("Borrar plan");
+        btn_eliminaPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminaPlanActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Plan de ejecucion");
 
         jLabel4.setText("Digite el plan:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        plan_ejecucion.setColumns(20);
+        plan_ejecucion.setRows(5);
+        jScrollPane1.setViewportView(plan_ejecucion);
 
         btn_CrearPlan.setText("Crear plan");
+        btn_CrearPlan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CrearPlanActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Creacion de indice");
 
@@ -87,11 +104,11 @@ public class menu_tunning extends javax.swing.JFrame {
 
         btn_CrearIndex.setText("Crear index");
 
-        schema_indice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        tabla_indice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        columna_indice.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        schema_indice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                schema_indiceActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Ver plan de ejecucion");
 
@@ -210,6 +227,99 @@ public class menu_tunning extends javax.swing.JFrame {
         menu.setVisible(true);
     }//GEN-LAST:event_btn_regresarActionPerformed
 
+    public void comboUsuarios () throws SQLException {
+    
+     Modelo modelo = new Modelo();
+    
+     String sql ="SELECT USERNAME FROM DBA_USERS";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      schema_indice.addItem(resultados.getString("USERNAME"));
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void comboTabla() throws SQLException{
+    
+      Modelo modelo = new Modelo();
+    
+        String sql ="SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER = '" + schema_indice.getSelectedItem() + "'";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      tabla_indice.addItem(resultados.getString("TABLE_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void btn_eliminaPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminaPlanActionPerformed
+        // TODO add your handling code here:
+        
+        Modelo modelo = new Modelo();
+        
+        try {
+            modelo.borrarPlan();
+            JOptionPane.showMessageDialog(null, "Plan eliminado correctamente!");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Error, intente nuevamente!");
+            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_eliminaPlanActionPerformed
+
+    private void btn_CrearPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CrearPlanActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+        String plan = plan_ejecucion.getText();
+        
+        try {
+            modelo.crearPlan(plan);
+            JOptionPane.showMessageDialog(null, "Plan eliminado correctamente!");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Error, intente nuevamente!");
+            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_CrearPlanActionPerformed
+
+    private void schema_indiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schema_indiceActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            tabla_indice.removeAllItems();
+            comboTabla();
+         } catch (SQLException ex) {
+            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_schema_indiceActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -240,7 +350,11 @@ public class menu_tunning extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new menu_tunning().setVisible(true);
+                try {
+                    new menu_tunning().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -262,8 +376,8 @@ public class menu_tunning extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea plan_ejecucion;
     private javax.swing.JComboBox<String> schema_indice;
     private javax.swing.JComboBox<String> tabla_indice;
     // End of variables declaration//GEN-END:variables

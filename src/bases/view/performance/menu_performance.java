@@ -5,7 +5,13 @@
  */
 package bases.view.performance;
 
+import bases.model.Modelo;
 import bases.view.menuprincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,10 +22,11 @@ public class menu_performance extends javax.swing.JFrame {
     /**
      * Creates new form menu_performance
      */
-    public menu_performance() {
+    public menu_performance() throws SQLException {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        comboUsuarios();
     }
 
     /**
@@ -69,9 +76,11 @@ public class menu_performance extends javax.swing.JFrame {
 
         jLabel5.setText("Seleccione la tabla:");
 
-        schema_estadistica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        tabla_estadistica.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        schema_estadistica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                schema_estadisticaActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Estadisticas Schema");
 
@@ -80,10 +89,25 @@ public class menu_performance extends javax.swing.JFrame {
         jLabel8.setText("Analisis de estadisticas");
 
         btn_crearSchema.setText("Crear");
+        btn_crearSchema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_crearSchemaActionPerformed(evt);
+            }
+        });
 
         btn_analizarEstadistica.setText("Analizar");
+        btn_analizarEstadistica.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_analizarEstadisticaActionPerformed(evt);
+            }
+        });
 
         btn_crearTabla.setText("Crear");
+        btn_crearTabla.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_crearTablaActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -209,6 +233,117 @@ public class menu_performance extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_verEstadisticasActionPerformed
 
+    private void schema_estadisticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schema_estadisticaActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            tabla_estadistica.removeAllItems();
+            comboTabla();
+         } catch (SQLException ex) {
+            Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_schema_estadisticaActionPerformed
+
+    private void btn_crearSchemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearSchemaActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+        String schema = (String) schema_estadistica.getSelectedItem();
+        
+        try {
+            modelo.estadisticaSchema(schema);
+            JOptionPane.showMessageDialog(null, "Estadistica creada correctamente!");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Error al crear la estadistica, intente nuevamente!");
+            Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btn_crearSchemaActionPerformed
+
+    private void btn_crearTablaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearTablaActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+        String schema = (String) schema_estadistica.getSelectedItem();
+        String tabla = (String) tabla_estadistica.getSelectedItem();
+        
+        try {
+            modelo.estadisticaTabla(schema, tabla);
+            JOptionPane.showMessageDialog(null, "Estadistica creada correctamente!");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Error al crear la estadistica, intente nuevamente!");
+            Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_crearTablaActionPerformed
+
+    private void btn_analizarEstadisticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_analizarEstadisticaActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+        String schema = (String) schema_estadistica.getSelectedItem();
+        String tabla = (String) tabla_estadistica.getSelectedItem();
+        
+        try {
+            modelo.analizarEstadistica(schema, tabla);
+            JOptionPane.showMessageDialog(null, "Estadistica creada correctamente!");
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Error al crear la estadistica, intente nuevamente!");
+            Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_analizarEstadisticaActionPerformed
+    
+    public void comboUsuarios () throws SQLException {
+    
+     Modelo modelo = new Modelo();
+    
+     String sql ="SELECT USERNAME FROM DBA_USERS";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      schema_estadistica.addItem(resultados.getString("USERNAME"));
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void comboTabla() throws SQLException{
+    
+      Modelo modelo = new Modelo();
+    
+        String sql ="SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER = '" + schema_estadistica.getSelectedItem() + "'";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      tabla_estadistica.addItem(resultados.getString("TABLE_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -239,7 +374,11 @@ public class menu_performance extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new menu_performance().setVisible(true);
+                try {
+                    new menu_performance().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
