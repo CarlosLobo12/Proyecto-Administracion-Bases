@@ -5,7 +5,13 @@
  */
 package bases.view.admin_schemas;
 
+import bases.model.Modelo;
+import bases.view.admin_tablespaces.menu_admin_tablespaces;
 import bases.view.menuprincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -175,6 +181,36 @@ public class menu_admin_schemas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_temporary_selecActionPerformed
 
+    public void comboTabla() throws SQLException{
+    
+      Modelo modelo = new Modelo();
+    /*
+    String sql ="SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER = '" + selecUser.getSelectedItem() + "'";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      tabla_sele.addItem(resultados.getString("TABLE_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }*/ 
+}
+    
+    
     /**
      * @param args the command line arguments
      */

@@ -24,9 +24,15 @@ public class menu_tunning extends javax.swing.JFrame {
      */
     public menu_tunning() throws SQLException {
         initComponents();
+        
+        try {
+            comboUsuarios();
+        } catch (Exception e) {
+        }
+        
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        comboUsuarios();
+        //comboUsuarios();
     }
 
     /**
