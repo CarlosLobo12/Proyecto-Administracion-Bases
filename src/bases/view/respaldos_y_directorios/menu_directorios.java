@@ -5,7 +5,14 @@
  */
 package bases.view.respaldos_y_directorios;
 
+import bases.model.Modelo;
+import bases.view.admin_tablespaces.menu_admin_tablespaces;
 import bases.view.menuprincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,6 +25,11 @@ public class menu_directorios extends javax.swing.JFrame {
      */
     public menu_directorios() {
         initComponents();
+        try {
+            comboDirectorios();
+        } catch (SQLException ex) {
+            Logger.getLogger(menu_directorios.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
@@ -69,10 +81,18 @@ public class menu_directorios extends javax.swing.JFrame {
         jLabel6.setText("Seleccione el directorio:");
 
         btn_creaDirectorio.setText("Crear directorio");
-
-        combo_directorioEliminar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        btn_creaDirectorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_creaDirectorioActionPerformed(evt);
+            }
+        });
 
         btn_eliminarDirectorio.setText("Eliminar directorio");
+        btn_eliminarDirectorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminarDirectorioActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,6 +124,11 @@ public class menu_directorios extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         btn_actualizaDirectorios.setText("Ver Directorios");
+        btn_actualizaDirectorios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_actualizaDirectoriosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -200,6 +225,124 @@ public class menu_directorios extends javax.swing.JFrame {
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+ 
+public void comboDirectorios () throws SQLException{
+    
+    Modelo modelo = new Modelo();
+    
+    String sql ="select DIRECTORY_NAME from all_directories";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      combo_directorioEliminar.addItem(resultados.getString("DIRECTORY_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    
+}
+    
+    
+    public DefaultTableModel modelo1;
+ 
+ public void actualizarTabla(){
+ 
+     Modelo modelo = new Modelo();
+        try {
+            ResultSet resultados;
+            resultados = modelo.cargarDirectorio();
+
+            modelo1 = new DefaultTableModel();
+
+            jTable1.setModel(modelo1);
+            modelo1.addColumn("Owner");
+            modelo1.addColumn("Directorio");
+            modelo1.addColumn("PATH ");
+            modelo1.addColumn("ID");
+            
+            if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [4];
+                     
+                     for (int i=0;i<4;i++){
+                         dato[i] = resultados.getObject(i+1);
+                     } 
+                     modelo1.addRow(dato);
+                } 
+            } 
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_directorios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(menu_directorios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ }
+ 
+    private void btn_actualizaDirectoriosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizaDirectoriosActionPerformed
+        // TODO add your handling code here:
+        actualizarTabla();
+        
+    }//GEN-LAST:event_btn_actualizaDirectoriosActionPerformed
+
+    private void btn_creaDirectorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_creaDirectorioActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+        
+        String nombre = nom_directorio.getText();
+        String path = path_directorio.getText();
+        String sql = "CREATE OR REPLACE DIRECTORY "+nombre+" AS '"+path+"'";
+        
+          
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);      
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btn_creaDirectorioActionPerformed
+
+    private void btn_eliminarDirectorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminarDirectorioActionPerformed
+        // TODO add your handling code here:
+         Modelo modelo = new Modelo();
+        
+        
+        String nombre = (String) combo_directorioEliminar.getSelectedItem();
+        String sql = "DROP DIRECTORY "+nombre+"";
+        
+          
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);      
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btn_eliminarDirectorioActionPerformed
 
     /**
      * @param args the command line arguments

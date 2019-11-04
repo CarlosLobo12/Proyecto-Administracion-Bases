@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.text.html.HTMLDocument;
 
 /**
  *
@@ -419,7 +420,12 @@ public void comboSquemas() throws SQLException{
           String directorio = (String) directorio_Recuperar.getSelectedItem();
           String sql = "IMPDP " + usuario + "/" + 
                   contracena + "@XE TABLES="+usuario+"." + tabla + " DIRECTORY="+directorio+" DUMPFILE=" + tabla + ".DMP LOGFILE=" + tabla + ".LOG;";
-        
+          
+          try {
+              Process child = Runtime.getRuntime().exec(sql);
+        } catch (Exception e) {
+        }
+        /*
         try {
             if (modelo.consulta(sql)!=null) {
                 ResultSet resultados;
@@ -430,7 +436,7 @@ public void comboSquemas() throws SQLException{
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }//GEN-LAST:event_btn_recuperarActionPerformed
 
     private void btn_recuperar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recuperar1ActionPerformed
@@ -443,7 +449,7 @@ public void comboSquemas() throws SQLException{
        
        String sql = "IMPDP " + usuario + "/" + contracena + "@XE SCHEMAS=" + 
                 usuario + " DIRECTORY="+directorio+" DUMPFILE=" + usuario + ".DMP LOGFILE=" + usuario + ".LOG;";
-        
+        /*
         try {
             if (modelo.consulta(sql)!=null) {
                 ResultSet resultados;
@@ -454,7 +460,7 @@ public void comboSquemas() throws SQLException{
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }//GEN-LAST:event_btn_recuperar1ActionPerformed
 
     private void btn_recuperarFullActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_recuperarFullActionPerformed
@@ -463,6 +469,11 @@ public void comboSquemas() throws SQLException{
        String sql = "IMPDP SYSTEM/root@XE FULL=Y DIRECTORY=RESPALDO DUMPFILE=XE.DMP LOGFILE=XE.LOG;";
         
         try {
+              Process child = Runtime.getRuntime().exec(sql);
+        } catch (Exception e) {
+        }
+       /*
+        try {
             if (modelo.consulta(sql)!=null) {
                 ResultSet resultados;
                 resultados = modelo.consulta(sql);      
@@ -472,7 +483,7 @@ public void comboSquemas() throws SQLException{
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }*/
     }//GEN-LAST:event_btn_recuperarFullActionPerformed
 
     /**

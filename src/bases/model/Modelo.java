@@ -23,6 +23,12 @@ public class Modelo {
          ResultSet resultados = baseDatos.consultar("SELECT t.tablespace_name ,t.status ,ROUND (MAX (d.bytes) / 1024 / 1024, 2),ROUND ((MAX (d.bytes) / 1024 / 1024) - (SUM (DECODE (f.bytes, NULL, 0, f.bytes)) / 1024 / 1024), 2), ROUND (SUM (DECODE (f.bytes, NULL, 0, f.bytes) ) / 1024 / 1024, 2) , t.pct_increase , SUBSTR (d.file_name, 1, 80)  FROM DBA_FREE_SPACE f, DBA_DATA_FILES d, DBA_TABLESPACES t WHERE t.tablespace_name = d.tablespace_name AND f.tablespace_name(+) = d.tablespace_name AND f.file_id(+) = d.file_id GROUP BY t.tablespace_name, d.file_name, t.pct_increase, t.status ORDER BY 1, 3 DESC"); 
        return resultados;
     }
+    public ResultSet cargarDirectorio() throws ClassNotFoundException{
+         OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar();
+         ResultSet resultados = baseDatos.consultar("select * from all_directories"); 
+       return resultados;
+    }
     public ResultSet consulta(String sql) throws ClassNotFoundException {
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
@@ -38,7 +44,7 @@ public class Modelo {
             return (ResultSet) this;
         } 
     }
-    public ResultSet respaldoTabla(String tabla, String usuario,String contrasena,String directorio) throws ClassNotFoundException{
+    public void respaldoTabla(String tabla, String usuario,String contrasena,String directorio) throws ClassNotFoundException{
         
         OracleDB basesDatos = new OracleDB();
         basesDatos.conectar(usuario, contrasena);
@@ -47,6 +53,10 @@ public class Modelo {
         
         String sql = "EXPDP " + usuario + "/" + contrasena + 
                 "@XE TABLES="+usuario+"." + tabla + " DIRECTORY="+"C:/"+" DUMPFILE=" + tabla + ".DMP LOGFILE=" + tabla + ".LOG";
+         try {
+            Process child = Runtime.getRuntime().exec(sql);
+        } catch (Exception e) {
+        }/*
         try {
             Statement sentencia;
             sentencia = basesDatos.getConecction().createStatement();
@@ -57,7 +67,7 @@ public class Modelo {
             e.printStackTrace();
             return (ResultSet) this;
         } 
-        
+        */
     }
     public ResultSet conectaVal(String schema, String contrasena, String sql) throws ClassNotFoundException{
         OracleDB basesDatos = new OracleDB();
