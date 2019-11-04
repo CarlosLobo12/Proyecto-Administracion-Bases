@@ -1,34 +1,11 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/jose1/OneDrive/Escritorio/Proyecto-Administracion-Bases/src/bases/view/creacion_respaldos/menu_creacion_respaldos.java</file>
+            <file>file:/C:/Users/jose1/OneDrive/Escritorio/Proyecto-Administracion-Bases/src/bases/view/admin_tablespaces/menu_admin_tablespaces.java</file>
             <file>file:/C:/Users/jose1/OneDrive/Escritorio/Proyecto-Administracion-Bases/src/bases/model/Modelo.java</file>
-            <file>file:/C:/Users/jose1/OneDrive/Escritorio/Proyecto-Administracion-Bases/src/bases/OracleDB.java</file>
-=======
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/view/admin_tablespaces/menu_admin_tablespaces.java</file>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/OracleDB.java</file>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/model/Modelo.java</file>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/view/seguridad_usuarios/menu_seguridadUsuarios.java</file>
->>>>>>> 850cff6368ba1305e5552f205fa541b3e220a32c
+            <file>file:/C:/Users/jose1/OneDrive/Escritorio/Proyecto-Administracion-Bases/src/bases/view/respaldos_y_directorios/menu_directorios.java</file>
         </group>
     </open-files>
 </project-private>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/view/admin_tablespaces/menu_admin_tablespaces.java</file>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/OracleDB.java</file>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/model/Modelo.java</file>
-            <file>file:/C:/Users/CALIL/Desktop/Proyecto-Administracion-Bases/Proyecto-Administracion-Bases/src/bases/view/seguridad_usuarios/menu_seguridadUsuarios.java</file>
-
-        </group>
-    </open-files>
-</project-private>
->>>>>>> 7cffa89d398119b08802c18431637999a36c18cb
