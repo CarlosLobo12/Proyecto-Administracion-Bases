@@ -44,7 +44,7 @@ public class Modelo {
             return (ResultSet) this;
         } 
     }
-    public ResultSet respaldoTabla(String tabla, String usuario,String contrasena,String directorio) throws ClassNotFoundException{
+    public void respaldoTabla(String tabla, String usuario,String contrasena,String directorio) throws ClassNotFoundException{
         
         OracleDB basesDatos = new OracleDB();
         basesDatos.conectar(usuario, contrasena);
@@ -53,6 +53,10 @@ public class Modelo {
         
         String sql = "EXPDP " + usuario + "/" + contrasena + 
                 "@XE TABLES="+usuario+"." + tabla + " DIRECTORY="+"C:/"+" DUMPFILE=" + tabla + ".DMP LOGFILE=" + tabla + ".LOG";
+         try {
+            Process child = Runtime.getRuntime().exec(sql);
+        } catch (Exception e) {
+        }/*
         try {
             Statement sentencia;
             sentencia = basesDatos.getConecction().createStatement();
@@ -63,7 +67,7 @@ public class Modelo {
             e.printStackTrace();
             return (ResultSet) this;
         } 
-        
+        */
     }
     public ResultSet conectaVal(String schema, String contrasena, String sql) throws ClassNotFoundException{
         OracleDB basesDatos = new OracleDB();
