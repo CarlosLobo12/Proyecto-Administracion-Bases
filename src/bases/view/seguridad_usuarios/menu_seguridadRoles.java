@@ -436,7 +436,7 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
         }
     }
     
-    public DefaultTableModel tabla;
+
     private void btn_crearRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearRolActionPerformed
         // TODO add your handling code here:
         
@@ -470,7 +470,8 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
             Logger.getLogger(menu_seguridadRoles.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_permisoRol_schemaActionPerformed
-
+    
+    public DefaultTableModel tabla;
     private void btn_verRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verRolActionPerformed
         // TODO add your handling code here:
         Modelo modelo = new Modelo();
@@ -529,7 +530,7 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
     
       Modelo modelo = new Modelo();
     
-    String sql ="SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER = '" + permisoRol_schema.getSelectedItem() + "'";
+        String sql ="SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER = '" + permisoRol_schema.getSelectedItem() + "'";
         try {
             if (modelo.consulta(sql)!=null) {
                 ResultSet resultados;
@@ -552,7 +553,7 @@ public class menu_seguridadRoles extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(menu_seguridadRoles.class.getName()).log(Level.SEVERE, null, ex);
         }
-}
+    }
     
     private void btnAsignaPermisosRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignaPermisosRolActionPerformed
         // TODO add your handling code here:

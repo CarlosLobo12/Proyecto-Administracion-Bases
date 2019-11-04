@@ -5,7 +5,14 @@
  */
 package bases.view.auditoria;
 
+import bases.model.Modelo;
 import bases.view.menuprincipal;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,10 +23,11 @@ public class menu_auditoria extends javax.swing.JFrame {
     /**
      * Creates new form menu_auditoria
      */
-    public menu_auditoria() {
+    public menu_auditoria() throws SQLException {
         initComponents();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        comboUsuarios();
     }
 
     /**
@@ -37,7 +45,7 @@ public class menu_auditoria extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        shema_CreaAuditoria = new javax.swing.JComboBox<>();
+        schema_CreaAuditoria = new javax.swing.JComboBox<>();
         tabla_creaAuditoria = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         opc_insertar = new javax.swing.JCheckBox();
@@ -45,17 +53,17 @@ public class menu_auditoria extends javax.swing.JFrame {
         opc_select = new javax.swing.JCheckBox();
         opc_update = new javax.swing.JCheckBox();
         opc_full = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        btn_crearAuditoria = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         schema_eliminaAuditoria = new javax.swing.JComboBox<>();
         tabla_eliminaAuditoria = new javax.swing.JComboBox<>();
-        opc_full1 = new javax.swing.JCheckBox();
-        opc_insertar1 = new javax.swing.JCheckBox();
-        opc_delete1 = new javax.swing.JCheckBox();
-        opc_select1 = new javax.swing.JCheckBox();
-        opc_update1 = new javax.swing.JCheckBox();
+        opc_BorrarFull = new javax.swing.JCheckBox();
+        opc_BorrarInsertar = new javax.swing.JCheckBox();
+        opc_BorrarDelete = new javax.swing.JCheckBox();
+        opc_BorrarSelect = new javax.swing.JCheckBox();
+        opc_BorrarUpdate = new javax.swing.JCheckBox();
         btn_eliminaAuditoria = new javax.swing.JButton();
         btn_iniciaAuditoria = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
@@ -64,7 +72,7 @@ public class menu_auditoria extends javax.swing.JFrame {
         pass_schemaVerAuditoria = new javax.swing.JTextField();
         btn_verAuditorias = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabla_auditoria = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,9 +93,11 @@ public class menu_auditoria extends javax.swing.JFrame {
 
         jLabel5.setText("Seleccione la tabla:");
 
-        shema_CreaAuditoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        tabla_creaAuditoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        schema_CreaAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                schema_CreaAuditoriaActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Permisos de auditoria:");
 
@@ -101,7 +111,12 @@ public class menu_auditoria extends javax.swing.JFrame {
 
         opc_full.setText("Full");
 
-        jButton1.setText("Crear auditoria");
+        btn_crearAuditoria.setText("Crear auditoria");
+        btn_crearAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_crearAuditoriaActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Eliminar auditoria");
 
@@ -109,21 +124,39 @@ public class menu_auditoria extends javax.swing.JFrame {
 
         jLabel9.setText("Seleccione la tabla:");
 
-        schema_eliminaAuditoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        schema_eliminaAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                schema_eliminaAuditoriaActionPerformed(evt);
+            }
+        });
 
-        tabla_eliminaAuditoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        tabla_eliminaAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tabla_eliminaAuditoriaActionPerformed(evt);
+            }
+        });
 
-        opc_full1.setText("Full");
+        opc_BorrarFull.setText("Full");
 
-        opc_insertar1.setText("Insert");
+        opc_BorrarInsertar.setText("Insert");
 
-        opc_delete1.setText("Delete");
+        opc_BorrarDelete.setText("Delete");
 
-        opc_select1.setText("Select");
+        opc_BorrarSelect.setText("Select");
+        opc_BorrarSelect.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opc_BorrarSelectActionPerformed(evt);
+            }
+        });
 
-        opc_update1.setText("Update");
+        opc_BorrarUpdate.setText("Update");
 
         btn_eliminaAuditoria.setText("Eliminar auditoria");
+        btn_eliminaAuditoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_eliminaAuditoriaActionPerformed(evt);
+            }
+        });
 
         btn_iniciaAuditoria.setText("Iniciar Auditoria");
 
@@ -131,28 +164,31 @@ public class menu_auditoria extends javax.swing.JFrame {
 
         jLabel11.setText("Seleccione schema:");
 
-        schema_verAuditoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         btn_verAuditorias.setText("Ver auditoria");
+        btn_verAuditorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_verAuditoriasActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabla_auditoria.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5", "Title 6", "Title 7", "Title 8", "Title 9", "Title 10", "Title 11", "Title 12", "Title 13", "Title 14", "Title 15"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabla_auditoria);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -161,7 +197,7 @@ public class menu_auditoria extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(970, Short.MAX_VALUE)
+                        .addContainerGap(1139, Short.MAX_VALUE)
                         .addComponent(btn_regresar))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(451, 451, 451)
@@ -185,7 +221,7 @@ public class menu_auditoria extends javax.swing.JFrame {
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(shema_CreaAuditoria, 0, 145, Short.MAX_VALUE)
+                                .addComponent(schema_CreaAuditoria, 0, 145, Short.MAX_VALUE)
                                 .addComponent(tabla_creaAuditoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(opc_update)
                             .addGroup(layout.createSequentialGroup()
@@ -200,53 +236,54 @@ public class menu_auditoria extends javax.swing.JFrame {
                         .addGap(158, 158, 158)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addComponent(jButton1)))
+                            .addComponent(btn_crearAuditoria)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(62, 62, 62)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btn_eliminaAuditoria)
+                                .addGap(158, 158, 158))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel9))
                                 .addGap(38, 38, 38)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(opc_update1)
+                                    .addComponent(opc_BorrarUpdate)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(opc_insertar1)
-                                            .addComponent(opc_delete1))
+                                            .addComponent(opc_BorrarInsertar)
+                                            .addComponent(opc_BorrarDelete))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(opc_select1)
-                                            .addComponent(opc_full1)))
+                                            .addComponent(opc_BorrarSelect)
+                                            .addComponent(opc_BorrarFull)))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(schema_eliminaAuditoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(tabla_eliminaAuditoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(87, 87, 87)
-                                .addComponent(btn_eliminaAuditoria)))))
+                                        .addComponent(tabla_eliminaAuditoria, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(62, 62, 62)))))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(89, 89, 89)
+                        .addComponent(btn_iniciaAuditoria)
+                        .addGap(110, 110, 110)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(89, 89, 89)
-                                .addComponent(btn_iniciaAuditoria)
-                                .addGap(110, 110, 110)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel11)
-                                    .addComponent(jLabel10))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(schema_verAuditoria, 0, 140, Short.MAX_VALUE)
-                                    .addComponent(pass_schemaVerAuditoria)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(213, 213, 213)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel10))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(schema_verAuditoria, 0, 140, Short.MAX_VALUE)
+                            .addComponent(pass_schemaVerAuditoria))
+                        .addContainerGap(202, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_verAuditorias)
-                        .addGap(176, 176, 176))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btn_verAuditorias)
+                                .addGap(176, 176, 176))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 636, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,7 +300,7 @@ public class menu_auditoria extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jLabel4)
-                                .addComponent(shema_CreaAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(schema_CreaAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel11)
                                 .addComponent(schema_verAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -278,9 +315,9 @@ public class menu_auditoria extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btn_verAuditorias)
-                        .addGap(45, 45, 45)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_regresar))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,13 +333,13 @@ public class menu_auditoria extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(opc_full)))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(btn_crearAuditoria)
                         .addGap(40, 40, 40)
                         .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addComponent(schema_eliminaAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(schema_eliminaAuditoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -310,18 +347,18 @@ public class menu_auditoria extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(opc_insertar1)
+                                .addComponent(opc_BorrarInsertar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(opc_delete1)
+                                .addComponent(opc_BorrarDelete)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(opc_update1))
+                                .addComponent(opc_BorrarUpdate))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(opc_select1)
+                                .addComponent(opc_BorrarSelect)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(opc_full1)))
-                        .addGap(18, 18, 18)
+                                .addComponent(opc_BorrarFull)))
+                        .addGap(29, 29, 29)
                         .addComponent(btn_eliminaAuditoria)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 24, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -335,6 +372,225 @@ public class menu_auditoria extends javax.swing.JFrame {
         menu.setVisible(true);
     }//GEN-LAST:event_btn_regresarActionPerformed
 
+    private void schema_CreaAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schema_CreaAuditoriaActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            tabla_creaAuditoria.removeAllItems();
+            comboTablaCrea();
+         } catch (SQLException ex) {
+            Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_schema_CreaAuditoriaActionPerformed
+
+    private void tabla_eliminaAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tabla_eliminaAuditoriaActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_tabla_eliminaAuditoriaActionPerformed
+
+    private void schema_eliminaAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schema_eliminaAuditoriaActionPerformed
+        // TODO add your handling code here:
+        
+        try {
+            // TODO add your handling code here:
+            tabla_eliminaAuditoria.removeAllItems();
+            comboTablaElimina();
+         } catch (SQLException ex) {
+            Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_schema_eliminaAuditoriaActionPerformed
+
+    private void opc_BorrarSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opc_BorrarSelectActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_opc_BorrarSelectActionPerformed
+
+    private void btn_crearAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_crearAuditoriaActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+        String usuario = (String) schema_CreaAuditoria.getSelectedItem();
+        String tabla = (String) tabla_creaAuditoria.getSelectedItem();
+        
+        try{
+        if(opc_insertar.isSelected()){
+            modelo.auditoriaInsert(usuario, tabla);
+        }else if(opc_update.isSelected()){
+            modelo.auditoriaUpdate(usuario, tabla);
+        }else if(opc_delete.isSelected()){
+            modelo.auditoriaDelete(usuario, tabla);
+        }else if(opc_select.isSelected()){
+            modelo.auditoriaSelect(usuario, tabla);
+        }else if(opc_full.isSelected()){
+            modelo.auditoriaFull(usuario, tabla);
+        }   
+            JOptionPane.showMessageDialog(null, "Auditoria creada correctamente");   
+        }
+        catch(ClassNotFoundException ex){
+            Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al crear la auditoria, vuelva a intentarlo!");
+        }
+    }//GEN-LAST:event_btn_crearAuditoriaActionPerformed
+
+    private void btn_eliminaAuditoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminaAuditoriaActionPerformed
+        // TODO add your handling code here:
+        
+        Modelo modelo = new Modelo();
+        
+        String usuario = (String) schema_eliminaAuditoria.getSelectedItem();
+        String tabla = (String) tabla_eliminaAuditoria.getSelectedItem();
+        
+        try {
+            
+            if(opc_BorrarInsertar.isSelected()){
+                modelo.auditoriaBorrarInsert(usuario, tabla);
+            }else if(opc_BorrarUpdate.isSelected()){
+                modelo.auditoriaBorrarUpdate(usuario, tabla);
+            }else if(opc_BorrarDelete.isSelected()){
+                modelo.auditoriaBorrarDelete(usuario, tabla);
+            }else if(opc_BorrarSelect.isSelected()){
+                modelo.auditoriaBorrarSelect(usuario, tabla);
+            }else if(opc_BorrarFull.isSelected()){
+                modelo.auditoriaBorrarFull(usuario, tabla);
+            }
+            
+            JOptionPane.showMessageDialog(null, "Auditoria creada correctamente");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error al eliminar la auditoria, vuelva a intentarlo!");
+        }
+        
+    }//GEN-LAST:event_btn_eliminaAuditoriaActionPerformed
+
+    public DefaultTableModel tabla;
+    private void btn_verAuditoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verAuditoriasActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+        String usuario = (String) schema_verAuditoria.getSelectedItem();
+        String pass = pass_schemaVerAuditoria.getText();
+  
+        try {
+            ResultSet resultados = modelo.mostrarAuditoria(usuario, pass);
+            tabla = new DefaultTableModel();
+            
+            tabla_auditoria.setModel(tabla);
+            tabla.addColumn("Nombre");
+            tabla.addColumn("Tipo");
+            tabla.addColumn("Aud");
+            tabla.addColumn("Del");
+            tabla.addColumn("Ins");
+            tabla.addColumn("Sel");
+            tabla.addColumn("Upd");
+            tabla.addColumn("Alt");
+            tabla.addColumn("Aud");
+            tabla.addColumn("Com");
+            tabla.addColumn("Gra");
+            tabla.addColumn("Ind");
+            tabla.addColumn("Loc");
+            tabla.addColumn("Ren");
+            tabla.addColumn("Fbk");
+
+            
+            while(resultados.next()){
+                Object dato[]= new Object [15];
+                
+                for(int i=0; i<15; i++){
+                    dato[i] = resultados.getObject(i+1);
+                }
+                tabla.addRow(dato);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_verAuditoriasActionPerformed
+
+    public void comboUsuarios () throws SQLException {
+    
+     Modelo modelo = new Modelo();
+    
+     String sql ="SELECT USERNAME FROM DBA_USERS";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      schema_eliminaAuditoria.addItem(resultados.getString("USERNAME"));
+                      schema_verAuditoria.addItem(resultados.getString("USERNAME"));
+                      schema_CreaAuditoria.addItem(resultados.getString("USERNAME"));
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void comboTablaCrea() throws SQLException{
+    
+      Modelo modelo = new Modelo();
+    
+        String sql ="SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER = '" + schema_CreaAuditoria.getSelectedItem() + "'";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      tabla_creaAuditoria.addItem(resultados.getString("TABLE_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void comboTablaElimina() throws SQLException{
+    
+      Modelo modelo = new Modelo();
+    
+        String sql ="SELECT TABLE_NAME FROM DBA_TABLES WHERE OWNER = '" + schema_eliminaAuditoria.getSelectedItem() + "'";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      tabla_eliminaAuditoria.addItem(resultados.getString("TABLE_NAME"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -365,17 +621,21 @@ public class menu_auditoria extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new menu_auditoria().setVisible(true);
+                try {
+                    new menu_auditoria().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(menu_auditoria.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_crearAuditoria;
     private javax.swing.JButton btn_eliminaAuditoria;
     private javax.swing.JButton btn_iniciaAuditoria;
     private javax.swing.JButton btn_regresar;
     private javax.swing.JButton btn_verAuditorias;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -388,21 +648,21 @@ public class menu_auditoria extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JCheckBox opc_BorrarDelete;
+    private javax.swing.JCheckBox opc_BorrarFull;
+    private javax.swing.JCheckBox opc_BorrarInsertar;
+    private javax.swing.JCheckBox opc_BorrarSelect;
+    private javax.swing.JCheckBox opc_BorrarUpdate;
     private javax.swing.JCheckBox opc_delete;
-    private javax.swing.JCheckBox opc_delete1;
     private javax.swing.JCheckBox opc_full;
-    private javax.swing.JCheckBox opc_full1;
     private javax.swing.JCheckBox opc_insertar;
-    private javax.swing.JCheckBox opc_insertar1;
     private javax.swing.JCheckBox opc_select;
-    private javax.swing.JCheckBox opc_select1;
     private javax.swing.JCheckBox opc_update;
-    private javax.swing.JCheckBox opc_update1;
     private javax.swing.JTextField pass_schemaVerAuditoria;
+    private javax.swing.JComboBox<String> schema_CreaAuditoria;
     private javax.swing.JComboBox<String> schema_eliminaAuditoria;
     private javax.swing.JComboBox<String> schema_verAuditoria;
-    private javax.swing.JComboBox<String> shema_CreaAuditoria;
+    private javax.swing.JTable tabla_auditoria;
     private javax.swing.JComboBox<String> tabla_creaAuditoria;
     private javax.swing.JComboBox<String> tabla_eliminaAuditoria;
     // End of variables declaration//GEN-END:variables
