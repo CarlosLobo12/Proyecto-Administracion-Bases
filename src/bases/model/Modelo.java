@@ -333,7 +333,13 @@ public class Modelo {
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
-         ResultSet resultados = baseDatos.consultar("EXEC dbms_stats.gather_schema_stats('"+schema+"', cascade => true)"); 
+        ResultSet resultados = null;
+         //ResultSet resultados = baseDatos.consultar("EXEC dbms_stats.gather_schema_stats('"+schema+"', cascade => true)"); 
+         String sql = "EXEC dbms_stats.gather_schema_stats('"+schema+"', cascade => true)";
+         try {
+            Process child = Runtime.getRuntime().exec(sql);
+        } catch (Exception e) {
+        }
        return resultados;
     }
     
@@ -341,7 +347,13 @@ public class Modelo {
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
-         ResultSet resultados = baseDatos.consultar("EXEC DBMS_STATS.gather_table_stats('"+schema+"', '"+tabla+"', cascade => true)"); 
+         ResultSet resultados = null;
+                 //baseDatos.consultar("EXEC DBMS_STATS.gather_table_stats('"+schema+"', '"+tabla+"', cascade => true)"); 
+         String sql = "EXEC DBMS_STATS.gather_table_stats('"+schema+"', '"+tabla+"', cascade => true)";
+         try {
+            Process child = Runtime.getRuntime().exec(sql);
+        } catch (Exception e) {
+        }
        return resultados;
     }
     
@@ -377,7 +389,8 @@ public class Modelo {
     public ResultSet crearPlan(String plan) throws ClassNotFoundException{
         
         OracleDB baseDatos = new OracleDB(); 
-         baseDatos.conectar();
+         //baseDatos.conectar();
+          baseDatos.conectar("PUBS", "root");
          ResultSet resultados = baseDatos.consultar(""+plan+""); 
        return resultados;
     }
