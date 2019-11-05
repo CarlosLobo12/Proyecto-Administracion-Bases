@@ -6,12 +6,14 @@
 package bases.view.performance;
 
 import bases.model.Modelo;
+import bases.view.admin_tablespaces.menu_admin_tablespaces;
 import bases.view.menuprincipal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -229,8 +231,42 @@ public class menu_performance extends javax.swing.JFrame {
         menu.setVisible(true);
     }//GEN-LAST:event_btn_regresar1ActionPerformed
 
+    public  DefaultTableModel modelo1;
     private void btn_verEstadisticasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_verEstadisticasActionPerformed
         // TODO add your handling code here:
+        
+         Modelo modelo = new Modelo();
+        try {
+            ResultSet resultados;
+            //resultados = modelo.cargarTableSpace();
+            
+            String tabla = (String) tabla_estadistica.getSelectedItem();
+            
+            String sql = "SELECT TABLE_NAME, COLUMN_NAME FROM USER_TAB_COL_STATISTICS WHERE table_name = '"+tabla+"'";
+            resultados = modelo.consulta(sql);
+
+            modelo1 = new DefaultTableModel();
+
+            jTable1.setModel(modelo1);
+            modelo1.addColumn("Table name");
+            modelo1.addColumn("Colum Name");
+  
+            
+            if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [2];
+                     
+                     for (int i=0;i<2;i++){
+                         dato[i] = resultados.getObject(i+1);
+                     } 
+                     modelo1.addRow(dato);
+                } 
+            } 
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(menu_admin_tablespaces.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_verEstadisticasActionPerformed
 
     private void schema_estadisticaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_schema_estadisticaActionPerformed

@@ -116,6 +116,18 @@ public class menu_tunning extends javax.swing.JFrame {
             }
         });
 
+        tabla_indice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tabla_indiceActionPerformed(evt);
+            }
+        });
+
+        columna_indice.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                columna_indiceActionPerformed(evt);
+            }
+        });
+
         jLabel9.setText("Ver plan de ejecucion");
 
         jTextArea2.setColumns(20);
@@ -206,9 +218,9 @@ public class menu_tunning extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(schema_indice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addComponent(tabla_indice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tabla_indice, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(columna_indice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,6 +245,36 @@ public class menu_tunning extends javax.swing.JFrame {
         menu.setVisible(true);
     }//GEN-LAST:event_btn_regresarActionPerformed
 
+    
+        public void comboColumna() throws SQLException{
+    
+           Modelo modelo = new Modelo();
+           String col = (String) tabla_indice.getSelectedItem();
+    
+        String sql ="select column_name from all_tab_columns where table_name = '"+col+"'";
+        try {
+            if (modelo.consulta(sql)!=null) {
+                ResultSet resultados;
+                resultados = modelo.consulta(sql);
+                 if (resultados!=null) {
+                    while(resultados.next()){
+                     Object dato[]= new Object [7];
+                      columna_indice.addItem(resultados.getString("column_name"));
+                     /*for (int i=0;i<7;i++){
+                         dato[i] = resultados.getObject(i+1);
+                        
+                     }*/ 
+
+                } 
+            } 
+                System.out.println(resultados);
+            }else{
+                System.out.println("Adios mundo");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public void comboUsuarios () throws SQLException {
     
      Modelo modelo = new Modelo();
@@ -305,8 +347,10 @@ public class menu_tunning extends javax.swing.JFrame {
         Modelo modelo = new Modelo();
         
         String plan = plan_ejecucion.getText();
+        //String sql = "SELECT SUBSTR (LPAD(' ', LEVEL-1) || OPERATION ||' (' '|| OPTIONS || ')',1,30 ) OPERACION,   OBJECT_NAME OBJETO FROM PLAN_TABLE START WITH ID = 0 CONNECT BY PRIOR ID=PARENT_ID";
         
         try {
+            //modelo.consulta(sql);
             modelo.crearPlan(plan);
             JOptionPane.showMessageDialog(null, "Plan eliminado correctamente!");
         } catch (ClassNotFoundException ex) {
@@ -321,10 +365,25 @@ public class menu_tunning extends javax.swing.JFrame {
             // TODO add your handling code here:
             tabla_indice.removeAllItems();
             comboTabla();
+            
          } catch (SQLException ex) {
             Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_schema_indiceActionPerformed
+
+    private void tabla_indiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tabla_indiceActionPerformed
+        try {
+            // TODO add your handling code here:
+             columna_indice.removeAllItems();
+            comboColumna();
+        } catch (SQLException ex) {
+            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_tabla_indiceActionPerformed
+
+    private void columna_indiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_columna_indiceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_columna_indiceActionPerformed
 
     /**
      * @param args the command line arguments

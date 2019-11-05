@@ -55,10 +55,7 @@ public class menu_admin_tablespaces extends javax.swing.JFrame {
         tam_temporary = new javax.swing.JTextField();
         btn_CrearTemporary = new javax.swing.JButton();
         btn_resize = new javax.swing.JButton();
-        btn_eliminar = new javax.swing.JButton();
-        btn_extend = new javax.swing.JButton();
         btn_nuevoDatafile = new javax.swing.JButton();
-        btn_readOnly = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
@@ -121,18 +118,12 @@ public class menu_admin_tablespaces extends javax.swing.JFrame {
             }
         });
 
-        btn_eliminar.setText("Eliminar");
-
-        btn_extend.setText("Autoextend");
-
         btn_nuevoDatafile.setText("Nuevo datafile");
         btn_nuevoDatafile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_nuevoDatafileActionPerformed(evt);
             }
         });
-
-        btn_readOnly.setText("Read only");
 
         jButton1.setText("Actualizar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -221,7 +212,7 @@ public class menu_admin_tablespaces extends javax.swing.JFrame {
                                 .addGap(71, 71, 71)
                                 .addComponent(btn_crearTablespace))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(313, 313, 313)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -229,11 +220,9 @@ public class menu_admin_tablespaces extends javax.swing.JFrame {
                                             .addComponent(jLabel10)
                                             .addComponent(jLabel11))
                                         .addGap(32, 32, 32))
-                                    .addGroup(layout.createSequentialGroup()
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGap(45, 45, 45)
                                         .addComponent(btn_resize, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btn_extend)
                                         .addGap(71, 71, 71)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btn_nuevoDatafile)
@@ -256,11 +245,7 @@ public class menu_admin_tablespaces extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 915, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(73, 73, 73))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(626, 626, 626)
-                .addComponent(btn_readOnly)
-                .addGap(52, 52, 52)
-                .addComponent(btn_eliminar)
-                .addGap(31, 31, 31)
+                .addGap(877, 877, 877)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_regresar))
@@ -333,11 +318,8 @@ public class menu_admin_tablespaces extends javax.swing.JFrame {
                                     .addComponent(jLabel11))
                                 .addGap(45, 45, 45)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btn_readOnly)
-                                    .addComponent(btn_eliminar)
                                     .addComponent(jButton1)
-                                    .addComponent(btn_nuevoDatafile)
-                                    .addComponent(btn_extend))))
+                                    .addComponent(btn_nuevoDatafile))))
                         .addGap(37, 37, 37))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btn_regresar)
@@ -483,10 +465,14 @@ public class menu_admin_tablespaces extends javax.swing.JFrame {
          Modelo modelo = new Modelo();
         modelo1 = (DefaultTableModel) tabla.getModel();
         
+        String nombre = squema.getText();
+        String shema = nom_schema.getText();
+        String tam = tam_schema.getText();
         retornarPrimerCampo();
-        String sql = "ALTER TABLESPACE "+squema.getName()+ " ADD DATAFILE 'C:/Oracle18c/oradata/XE/" + nom_schema.getName()+".DBF' SIZE "+tam_schema.getName()+"M";
+        String sql = "ALTER TABLESPACE "+nombre+ " ADD DATAFILE 'C:/Oracle18c/oradata/XE/" + shema+".DBF' SIZE "+tam+"M";
         try {
             if (modelo.consulta(sql)!=null) {
+                modelo.consulta(sql);
                 System.out.println("bases.view.admin_tablespaces.menu_admin_tablespaces.btn_resizeActionPerformed()");
             }
         } catch (ClassNotFoundException ex) {
@@ -562,10 +548,7 @@ public class menu_admin_tablespaces extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_CrearTemporary;
     private javax.swing.JButton btn_crearTablespace;
-    private javax.swing.JButton btn_eliminar;
-    private javax.swing.JButton btn_extend;
     private javax.swing.JButton btn_nuevoDatafile;
-    private javax.swing.JButton btn_readOnly;
     private javax.swing.JButton btn_regresar;
     private javax.swing.JButton btn_resize;
     private javax.swing.JButton jButton1;
