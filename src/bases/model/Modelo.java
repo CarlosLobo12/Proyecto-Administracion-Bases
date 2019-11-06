@@ -6,9 +6,12 @@
 package bases.model;
 
 import bases.OracleDB;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import static java.sql.Types.NULL;
 import javax.swing.JOptionPane;
 
 /**
@@ -344,30 +347,44 @@ public class Modelo {
     
     //metodos de la ventana de estadisticas 
     
-    public ResultSet estadisticaSchema(String schema) throws ClassNotFoundException{
+    public ResultSet estadisticaSchema(String schema) throws ClassNotFoundException, SQLException{
         
-        OracleDB baseDatos = new OracleDB(); 
-         baseDatos.conectar();
+        OracleDB baseDatos = new OracleDB();
+        baseDatos.conectar();
+         Connection conn = baseDatos.getConecction() ;
         ResultSet resultados = null;
          //ResultSet resultados = baseDatos.consultar("EXEC dbms_stats.gather_schema_stats('"+schema+"', cascade => true)"); 
-         String homeDirectory = System.getProperty("user.home");
-         String sql = "EXEC dbms_stats.gather_schema_stats('"+schema+"', cascade => true)";
+         //String homeDirectory = System.getProperty("user.home");
+         //String sql = "EXEC dbms_stats.gather_schema_stats('"+schema+"', cascade => true)";
+         CallableStatement cst = conn.prepareCall("EXEC DBMS_UTILITY.ANALYZE_SCHEMA(?,?)");
+         
+         cst.setString(1,"'"+schema+"'");
+         cst.setString(2, "COMPUTE");
+         cst.execute();
+         
          try {
-            Process child = Runtime.getRuntime().exec(String.format(sql, homeDirectory));
+           // Process child = Runtime.getRuntime().exec(String.format(sql, homeDirectory));
         } catch (Exception e) {
         }
        return resultados;
     }
     
-    public ResultSet estadisticaTabla(String schema, String tabla) throws ClassNotFoundException{
+    public ResultSet estadisticaTabla(String schema, String tabla) throws ClassNotFoundException, SQLException{
         
         OracleDB baseDatos = new OracleDB(); 
          baseDatos.conectar();
          ResultSet resultados = null;
                  //baseDatos.consultar("EXEC DBMS_STATS.gather_table_stats('"+schema+"', '"+tabla+"', cascade => true)"); 
-         String sql = "EXEC DBMS_STATS.gather_table_stats('"+schema+"', '"+tabla+"', cascade => true)";
+             Connection conn = baseDatos.getConecction() ;
+             CallableStatement cst = conn.prepareCall("EXEC DBMS_STATS.gather_table_stats(?, ?, ?)");
+             cst.setString(1, schema);
+            cst.setString(2, tabla);
+            cst.setBoolean(3,true);
+            cst.execute();
+          
+         String sql = "ANALYZE TABLE "+schema+"."+tabla+" COMPUTE STATISTICS;";
          try {
-            Process child = Runtime.getRuntime().exec(sql);
+            baseDatos.consultar(sql);
         } catch (Exception e) {
         }
        return resultados;

@@ -242,21 +242,24 @@ public class menu_performance extends javax.swing.JFrame {
             
             String tabla = (String) tabla_estadistica.getSelectedItem();
             
-            String sql = "SELECT TABLE_NAME, COLUMN_NAME FROM USER_TAB_COL_STATISTICS WHERE table_name = '"+tabla+"'";
+            String sql = "SELECT *  FROM all_tab_col_statistics WHERE table_name = '"+tabla+"'";
             resultados = modelo.consulta(sql);
 
             modelo1 = new DefaultTableModel();
 
             jTable1.setModel(modelo1);
+            modelo1.addColumn("Owner");
             modelo1.addColumn("Table name");
             modelo1.addColumn("Colum Name");
+            modelo1.addColumn("Low value");
+            modelo1.addColumn("High value");
   
             
             if (resultados!=null) {
                     while(resultados.next()){
-                     Object dato[]= new Object [2];
+                     Object dato[]= new Object [5];
                      
-                     for (int i=0;i<2;i++){
+                     for (int i=0;i<5;i++){
                          dato[i] = resultados.getObject(i+1);
                      } 
                      modelo1.addRow(dato);
@@ -292,6 +295,8 @@ public class menu_performance extends javax.swing.JFrame {
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Error al crear la estadistica, intente nuevamente!");
             Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_btn_crearSchemaActionPerformed
@@ -308,6 +313,8 @@ public class menu_performance extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Estadistica creada correctamente!");
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Error al crear la estadistica, intente nuevamente!");
+            Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(menu_performance.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_crearTablaActionPerformed
