@@ -503,7 +503,7 @@ public void comboSquemas() throws SQLException{
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         Modelo modelo = new Modelo();     
-       String sql = "EXPDP SYSTEM/root@XE FULL=Y DIRECTORY=RESPALDO DUMPFILE=XE.DMP LOGFILE=XE.LOG;";
+       String sql = "EXPDP SYSTEM/root@XE FULL=Y DIRECTORY=RESPALDO DUMPFILE=XE.DMP LOGFILE=XE.LOG";
        
        ProcessBuilder processBuilder = new ProcessBuilder();
        processBuilder.command(sql);
