@@ -44,6 +44,21 @@ public class Modelo {
             return (ResultSet) this;
         } 
     }
+    public ResultSet consulta(String sql,String usuario) throws ClassNotFoundException {
+        OracleDB baseDatos = new OracleDB(); 
+         baseDatos.conectar(usuario,"root");
+        ResultSet resultado = null;
+        try {
+            Statement sentencia;
+            sentencia = baseDatos.getConecction().createStatement();
+            resultado = sentencia.executeQuery(sql);
+            //getConecction().commit();
+            return resultado;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return (ResultSet) this;
+        } 
+    }
     public void respaldoTabla(String tabla, String usuario,String contrasena,String directorio) throws ClassNotFoundException{
         
         OracleDB basesDatos = new OracleDB();
@@ -54,7 +69,7 @@ public class Modelo {
         String sql = "EXPDP " + usuario + "/" + contrasena + 
                 "@XE TABLES="+usuario+"." + tabla + " DIRECTORY="+"C:/"+" DUMPFILE=" + tabla + ".DMP LOGFILE=" + tabla + ".LOG";
          try {
-            Process child = Runtime.getRuntime().exec(sql);
+            Runtime.getRuntime().exec(sql);
         } catch (Exception e) {
         }/*
         try {
@@ -335,9 +350,10 @@ public class Modelo {
          baseDatos.conectar();
         ResultSet resultados = null;
          //ResultSet resultados = baseDatos.consultar("EXEC dbms_stats.gather_schema_stats('"+schema+"', cascade => true)"); 
+         String homeDirectory = System.getProperty("user.home");
          String sql = "EXEC dbms_stats.gather_schema_stats('"+schema+"', cascade => true)";
          try {
-            Process child = Runtime.getRuntime().exec(sql);
+            Process child = Runtime.getRuntime().exec(String.format(sql, homeDirectory));
         } catch (Exception e) {
         }
        return resultados;
@@ -395,10 +411,10 @@ public class Modelo {
        return resultados;
     }
     
-    public ResultSet crearIndex(String tabla, String columna) throws ClassNotFoundException{
+    public ResultSet crearIndex(String tabla, String columna,String schema) throws ClassNotFoundException{
         
         OracleDB baseDatos = new OracleDB(); 
-         baseDatos.conectar();
+         baseDatos.conectar(schema,"root");
          ResultSet resultados = baseDatos.consultar("CREATE INDEX IDX_" + tabla + " ON " + tabla+"("+columna+")"); 
        return resultados;
     }

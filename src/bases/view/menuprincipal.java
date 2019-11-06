@@ -48,7 +48,6 @@ public class menuprincipal extends javax.swing.JFrame {
         titulo = new javax.swing.JLabel();
         boton_recuperaRespaldo = new javax.swing.JButton();
         boton_creacionRespaldo = new javax.swing.JButton();
-        boton_admSchemas = new javax.swing.JButton();
         boton_admTablespaces = new javax.swing.JButton();
         boton_performance = new javax.swing.JButton();
         boton_auditoria = new javax.swing.JButton();
@@ -79,13 +78,6 @@ public class menuprincipal extends javax.swing.JFrame {
         boton_creacionRespaldo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 boton_creacionRespaldoActionPerformed(evt);
-            }
-        });
-
-        boton_admSchemas.setText("Administracion de Schemas");
-        boton_admSchemas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                boton_admSchemasActionPerformed(evt);
             }
         });
 
@@ -144,43 +136,42 @@ public class menuprincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(79, 79, 79)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jButton1)
-                        .addComponent(boton_seguridad)
-                        .addComponent(boton_auditoria)
-                        .addComponent(boton_performance)
-                        .addComponent(boton_admTablespaces)
-                        .addComponent(boton_tunning)
-                        .addComponent(boton_admSchemas)
-                        .addComponent(boton_recuperaRespaldo)
-                        .addComponent(boton_creacionRespaldo)
-                        .addComponent(boton_seguridadRoles))
-                    .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(82, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(boton_seguridadRoles)
+                    .addComponent(boton_seguridad)
+                    .addComponent(boton_auditoria)
+                    .addComponent(boton_performance)
+                    .addComponent(boton_creacionRespaldo)
+                    .addComponent(jButton1)
+                    .addComponent(boton_tunning)
+                    .addComponent(boton_recuperaRespaldo)
+                    .addComponent(boton_admTablespaces))
+                .addGap(92, 92, 92))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(titulo)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addComponent(boton_creacionRespaldo)
-                .addGap(61, 61, 61)
+                .addGap(30, 30, 30)
                 .addComponent(boton_recuperaRespaldo)
-                .addGap(18, 18, 18)
+                .addGap(32, 32, 32)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
-                .addComponent(boton_admSchemas)
-                .addGap(18, 18, 18)
                 .addComponent(boton_admTablespaces)
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addComponent(boton_tunning)
-                .addGap(18, 18, 18)
+                .addGap(39, 39, 39)
                 .addComponent(boton_performance)
                 .addGap(18, 18, 18)
                 .addComponent(boton_auditoria)
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addComponent(boton_seguridad)
                 .addGap(18, 18, 18)
                 .addComponent(boton_seguridadRoles)
@@ -210,13 +201,6 @@ public class menuprincipal extends javax.swing.JFrame {
         this.setVisible(false);
         menu.setVisible(true);
     }//GEN-LAST:event_boton_admRespaldosDirectoriosActionPerformed
-
-    private void boton_admSchemasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_admSchemasActionPerformed
-        // TODO add your handling code here:
-        menu_admin_schemas menu = new menu_admin_schemas();
-        this.setVisible(false);
-        menu.setVisible(true);
-    }//GEN-LAST:event_boton_admSchemasActionPerformed
 
     private void boton_admTablespacesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boton_admTablespacesActionPerformed
         // TODO add your handling code here:
@@ -330,7 +314,6 @@ public class menuprincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton boton_admRespaldosDirectorios;
-    private javax.swing.JButton boton_admSchemas;
     private javax.swing.JButton boton_admTablespaces;
     private javax.swing.JButton boton_auditoria;
     private javax.swing.JButton boton_creacionRespaldo;
