@@ -9,6 +9,7 @@ import bases.model.Modelo;
 import bases.view.admin_tablespaces.menu_admin_tablespaces;
 import bases.view.menuprincipal;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -437,10 +438,17 @@ public void comboSquemas() throws SQLException{
        String contracena = nom_contra.getText();
        String directorio = (String) direcS.getSelectedItem();
        
-       String sql = "EXPDP " + usuario + "/" + contracena + "@XE SCHEMAS=" + usuario + " DIRECTORY="+ directorio + " DUMPFILE=" + usuario + ".DMP LOGFILE=" + usuario + ".LOG";
-        
+       String sql = "EXPDP \\\"SYS/root@XE AS SYSDBA\\\" DIRECTORY="+ directorio + " SCHEMAS= \"" + usuario + "\" DUMPFILE=" + usuario + ".DMP LOGFILE="+ directorio + usuario + ".LOG";
+        String homeDirectory = System.getProperty("user.home");
+    try {
+        Process child = Runtime.getRuntime().exec(sql);
+    } catch (IOException ex) {
+        Logger.getLogger(menu_creacion_respaldos.class.getName()).log(Level.SEVERE, null, ex);
+    }
+       
         try {
-            Process child = Runtime.getRuntime().exec(sql);
+            Process child = Runtime.getRuntime().exec(String.format(sql, homeDirectory));
+            child.waitFor();
              BufferedReader in = new BufferedReader(  
                                 new InputStreamReader(child.getInputStream()));  
             String line = null;  
@@ -496,7 +504,16 @@ public void comboSquemas() throws SQLException{
         // TODO add your handling code here:
         Modelo modelo = new Modelo();     
        String sql = "EXPDP SYSTEM/root@XE FULL=Y DIRECTORY=RESPALDO DUMPFILE=XE.DMP LOGFILE=XE.LOG;";
+       
+       ProcessBuilder processBuilder = new ProcessBuilder();
+       processBuilder.command(sql);
         
+    try {
+        Runtime.getRuntime().exec(sql);
+    } catch (IOException ex) {
+        Logger.getLogger(menu_creacion_respaldos.class.getName()).log(Level.SEVERE, null, ex);
+    }
+       
         try {
              System.out.println("entro"); 
             Process child = Runtime.getRuntime().exec(sql);

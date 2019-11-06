@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -46,8 +47,6 @@ public class menu_tunning extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         btn_regresar = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        btn_eliminaPlan = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -62,8 +61,9 @@ public class menu_tunning extends javax.swing.JFrame {
         tabla_indice = new javax.swing.JComboBox<>();
         columna_indice = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        nomExplan = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,15 +73,6 @@ public class menu_tunning extends javax.swing.JFrame {
         btn_regresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_regresarActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Borrar plan ");
-
-        btn_eliminaPlan.setText("Borrar plan");
-        btn_eliminaPlan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_eliminaPlanActionPerformed(evt);
             }
         });
 
@@ -109,6 +100,11 @@ public class menu_tunning extends javax.swing.JFrame {
         jLabel8.setText("Seleccione la columna:");
 
         btn_CrearIndex.setText("Crear index");
+        btn_CrearIndex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_CrearIndexActionPerformed(evt);
+            }
+        });
 
         schema_indice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -130,14 +126,43 @@ public class menu_tunning extends javax.swing.JFrame {
 
         jLabel9.setText("Ver plan de ejecucion");
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel6))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(schema_indice, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tabla_indice, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(741, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(columna_indice, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(741, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(420, 420, 420)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -145,50 +170,31 @@ public class menu_tunning extends javax.swing.JFrame {
                         .addComponent(btn_CrearIndex)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btn_regresar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_eliminaPlan)
-                            .addComponent(jLabel3)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(btn_CrearPlan)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel9)
-                                .addGap(221, 221, 221))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel6))
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(columna_indice, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(schema_indice, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tabla_indice, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(72, 72, 72))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(420, 420, 420)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(57, 57, 57)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(129, 129, 129)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(btn_CrearPlan)))
+                        .addGroup(layout.createSequentialGroup()
+                            .addContainerGap(748, Short.MAX_VALUE)
+                            .addComponent(jLabel9)
+                            .addGap(221, 221, 221))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(120, 120, 120)
+                            .addComponent(jLabel3))))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nomExplan, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -196,22 +202,20 @@ public class menu_tunning extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(1, 1, 1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel9)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_eliminaPlan)
-                        .addGap(18, 18, 18)
+                        .addGap(52, 52, 52)
                         .addComponent(jLabel3)
-                        .addGap(12, 12, 12)
-                        .addComponent(jLabel4)
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(nomExplan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_CrearPlan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                         .addComponent(jLabel5)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -227,8 +231,9 @@ public class menu_tunning extends javax.swing.JFrame {
                             .addComponent(jLabel8))
                         .addGap(61, 61, 61))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addGap(49, 49, 49)
+                        .addGap(16, 16, 16)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_regresar)
                             .addComponent(btn_CrearIndex))
@@ -327,34 +332,46 @@ public class menu_tunning extends javax.swing.JFrame {
             Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void btn_eliminaPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_eliminaPlanActionPerformed
-        // TODO add your handling code here:
-        
-        Modelo modelo = new Modelo();
-        
-        try {
-            modelo.borrarPlan();
-            JOptionPane.showMessageDialog(null, "Plan eliminado correctamente!");
-        } catch (ClassNotFoundException ex) {
-            JOptionPane.showMessageDialog(null, "Error, intente nuevamente!");
-            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btn_eliminaPlanActionPerformed
-
+      public DefaultTableModel modelo1;
     private void btn_CrearPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CrearPlanActionPerformed
         // TODO add your handling code here:
         Modelo modelo = new Modelo();
         
-        String plan = plan_ejecucion.getText();
-        //String sql = "SELECT SUBSTR (LPAD(' ', LEVEL-1) || OPERATION ||' (' '|| OPTIONS || ')',1,30 ) OPERACION,   OBJECT_NAME OBJETO FROM PLAN_TABLE START WITH ID = 0 CONNECT BY PRIOR ID=PARENT_ID";
+        String nombre = nomExplan.getText();
+        String consulta = plan_ejecucion.getText();
         
+        String plan = plan_ejecucion.getText();
+        String sql = "SELECT SUBSTR (LPAD('', LEVEL-1) || OPERATION || '('  || OPTIONS ||  ')',1,30 ) \"OPERACION\",   OBJECT_NAME \"OBJETO\" FROM PLAN_TABLE START WITH ID = 0 CONNECT BY PRIOR ID=PARENT_ID";
+        String sql2 = "EXPLAIN PLAN set Statement_ID = '" + nombre+ "' FOR " + consulta;
+        String truncate = "TRUNCATE TABLE PLAN_TABLE";
+          modelo1 = new DefaultTableModel();
+
+            jTable1.setModel(modelo1);
+            modelo1.addColumn("OPERACION");
+            modelo1.addColumn("OBJETO");
         try {
-            //modelo.consulta(sql);
-            modelo.crearPlan(plan);
-            JOptionPane.showMessageDialog(null, "Plan eliminado correctamente!");
+            modelo.consulta(truncate,"PUBS");
+            modelo.consulta(sql2 ,"PUBS");
+            ResultSet resultado = modelo.consulta(sql,"PUBS");
+            
+             if (resultado!=null) {
+                    while(resultado.next()){
+                     Object dato[]= new Object [2];
+                     
+                     for (int i=0;i<2;i++){
+                         dato[i] = resultado.getObject(i+1);
+                         //jTextArea2.setText(resultado.getString("OPERACION"));
+                         //jTextArea2.setText(resultado.getString("OBJETO"));
+                     } 
+                     modelo1.addRow(dato);
+                } 
+            } 
+            //modelo.crearPlan(plan);
+            JOptionPane.showMessageDialog(null, "Plan Creado correctamente!");
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Error, intente nuevamente!");
+            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
             Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_CrearPlanActionPerformed
@@ -384,6 +401,21 @@ public class menu_tunning extends javax.swing.JFrame {
     private void columna_indiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_columna_indiceActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_columna_indiceActionPerformed
+
+    private void btn_CrearIndexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CrearIndexActionPerformed
+        // TODO add your handling code here:
+        Modelo modelo = new Modelo();
+        
+        String schema = (String) schema_indice.getSelectedItem();
+        String tabla = (String) tabla_indice.getSelectedItem();
+        String columna = (String) columna_indice.getSelectedItem();
+        
+        try {
+            modelo.crearIndex(tabla, columna,schema);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(menu_tunning.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btn_CrearIndexActionPerformed
 
     /**
      * @param args the command line arguments
@@ -427,11 +459,9 @@ public class menu_tunning extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_CrearIndex;
     private javax.swing.JButton btn_CrearPlan;
-    private javax.swing.JButton btn_eliminaPlan;
     private javax.swing.JButton btn_regresar;
     private javax.swing.JComboBox<String> columna_indice;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -440,8 +470,9 @@ public class menu_tunning extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField nomExplan;
     private javax.swing.JTextArea plan_ejecucion;
     private javax.swing.JComboBox<String> schema_indice;
     private javax.swing.JComboBox<String> tabla_indice;
